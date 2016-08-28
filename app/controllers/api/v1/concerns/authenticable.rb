@@ -12,9 +12,6 @@ module Api
           render json: { errors: ['You need to provide a valid token and email'] }, status: :unauthorized
         end
 
-        # TODO, rethink this and evaluate to move this to independent
-        # skip_before_action callbacks on individual controllers
-
         def non_authenticable_methods
           non_authenticable_devise_methods || non_authenticable_api_methods
         end
