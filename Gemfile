@@ -29,6 +29,10 @@ gem 'rails_12factor', group: :production
 # end
 
 group :development do
+    # Code analysis tools
+  gem 'rails_best_practices', '~> 1.16.0'
+  gem 'reek', '~> 1.3.6'
+  gem 'rubocop', '~> 0.32.1'
   gem 'pry-byebug', '~> 3.3.0'
   gem 'pry-rails', '~> 0.3.4'
   gem 'quiet_assets', '~> 1.1.0'
