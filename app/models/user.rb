@@ -13,5 +13,5 @@
 #
 
 class User < ActiveRecord::Base
-	include Authenticable
+  include Authenticable
 end

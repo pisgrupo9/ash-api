@@ -2,7 +2,6 @@ module Api
   module V1
     class ApiController < ApplicationController
       include Concerns::Authenticable
-      
       layout false
       respond_to :json
 
