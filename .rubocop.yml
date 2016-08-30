@@ -1,0 +1,102 @@
+AllCops:
+  Include:
+    - '**/*.gemspec'
+    - '**/Rakefile'
+  Exclude:
+    - 'db/**/*'
+    - 'bin/**/*'
+    - 'lib/**/*'
+    - 'config/**/*'
+
+AbcSize:
+  Exclude:
+    - 'app/controllers/api/v1/passwords_controller.rb'
+    - 'app/controllers/api/v1/registrations_controller.rb'
+
+LineLength:
+  Description: 'Limit lines to 130 characters.'
+  Max: 130
+
+ClassLength:
+  Max: 200
+
+Documentation:
+  Enabled: false
+
+MethodLength:
+  Description: 'Avoid methods longer than `Max` lines of code.'
+  CountComments: false  # count full line comments?
+  Max: 24
+
+ParameterLists:
+  Description: 'Avoid parameter lists longer than five parameters.'
+  Max: 5
+  CountKeywordArgs: true
+
+SingleLineMethods:
+  Description: 'Avoid single-line methods.'
+  AllowIfMethodIsEmpty: true
+
+BlockNesting:
+  Description: 'Avoid more than `Max` levels of nesting.'
+  Max: 4
+
+RegexpLiteral:
+  Description: >
+                 Use %r for regular expressions matching more than
+                 `MaxSlashes` '/' characters.
+                 Use %r only for regular expressions matching more than
+                 `MaxSlashes` '/' character.
+
+# Align with the style guide.
+CollectionMethods:
+  PreferredMethods:
+    collect: 'map'
+    collect!: 'map!'
+    inject: 'reduce'
+    detect: 'find'
+    find_all: 'select'
+
+# TrivialAccessors doesn't require exact name matches and doesn't allow
+# predicated methods by default.
+TrivialAccessors:
+  ExactNameMatch: false
+  AllowPredicates: false
+  Whitelist:
+    - to_ary
+    - to_a
+    - to_c
+    - to_enum
+    - to_h
+    - to_hash
+    - to_i
+    - to_int
+    - to_io
+    - to_open
+    - to_path
+    - to_proc
+    - to_r
+    - to_regexp
+    - to_str
+    - to_s
+    - to_sym
+
+# Allow safe assignment in conditions.
+AssignmentInCondition:
+  AllowSafeAssignment: true
+
+# Allow safe assignment in conditions.
+ParenthesesAroundCondition:
+  AllowSafeAssignment: true
+
+# Checks formatting of special comments
+CommentAnnotation:
+  Keywords:
+    - TODO
+    - FIXME
+    - OPTIMIZE
+    - HACK
+    - REVIEW
+
+CyclomaticComplexity:
+  Max: 12
