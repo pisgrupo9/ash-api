@@ -1,0 +1,24 @@
+language: ruby
+rvm:
+- 2.2.2
+cache: bundler
+before_script:
+- psql -c 'create database ash_api_test' -U postgres
+- bundle exec rake db:migrate
+- bundle exec rake db:test:prepare
+script:
+  - bundle exec rake code_analysis
+services:
+- postgresql
+addons:
+  postgresql: '9.4'
+notifications:
+  email: false
+  slack:
+    secure: H+ObhLnmN6Cg+2L9/I43jGVscp0M0LhASlwf4i+7/wJV3WCOMrb7Fe/Wp1C/67rLtQIGBNy5Wkiy4UPJbYrE33WRnuvBiTzFQyfvOXIird+qYZCKI+YNOHjbCa7cLphUp7DDGrJIBBxiJ9ThqBvWqgq15UagX60o32ZdCMrv0VO8myzM0du8YKalan3YlAcdIE3jvqIuSa9BHP2RJYZVmQgyytk+yBim3Wsql+UFVeI1krY8rrmjW6pALmwQzwjihBAtCw7PqdjUV4l8eSs68MmqXAXZ/E5+eL2XUsfGXW06dh1MHqJYNWbk+o+rhXjPdmEg0VMHJV/Agf/Y/UL6KsG+N68pQgk66YMO8DFdYtb5QUUCpIPf0TFXNHS6YKnIQYV9RG3GNO54vIaREYhCNGo53Q0L3wMcCReGuQzLuc5KKAHVwKhV+8Xtng9IU/yeYtaOtF4P2MjZFmNEbAREAoH3G18V7+o8ZrIglBhF3NDmoLR3sEzqG8WdQrbSDQBoxw4FJnDNKq1JZFcQhx60PJ99hN1QB3sTHhBxHv/yJzXPNWyPNcmpRs+ZcUNF4HTibynH4nM9KXdiznLfBCCOnwJEK2KsgoL1JqoVg/8uJOusHuUqgRsTOqeEXVRRvZG/pDkSoKAXAzGD2pDJ+Im+PVbjDBr+W9ICHNH4oELcLFg=
+deploy:
+  provider: heroku
+  api_key:
+    secure: QHWOiU038gEU7HSFRmLmBqXYPsio/VAtQuUPOFW2s7ZxAD6XyWE/yxS0Yw3+zlkQfIpQXb4vKQtPQ0cN4hmQyujcsImaMkbCuj3lZfAWKwLyAmwWgJy7QrjVha67raoG71AAYwod5sGxJ10vIfZTlboem1CG64it1qJk6iosiDcY6DVJ1YRSwieAE0vf9rjxUmU9Dd3LBRk96AmzAIA1LdStAcPXp/QkZIKN8LSbUqvxI+JkJnPb8SNsYyjGHBzutDaQXXZdhELa61GkKw6WhjTFm7EqTqKQfpW00CZVfL5ZjQX9qpD8xsZ+tLGgj5mnC75RoAR4mO+TYSkvU3qjnEeixBe/BHJ0TqOfGsrJs0d36hu4ZILKx4ApkQGzHaJ7v/mNyTewA1wy5YqVezDkQQTqgJMeMWL30IO0AWURNnm7D9yGGqwNEvumRvqgezauZyZJMYW+olufzI3f5SeZ5B/4VFXQaja1ic33vC0kBf5eZ29dCttF00v/t7h2l/uPMUEIFZvWDnt929T/77fVJ1qVjoGim4NhRUWri+VRnGE0ANPMCbacdTxAmd/dzo98tF/10Is2OhP8vf9/Ytm9e7g2kfIXNTG84tryDd7x7i83BEp/ntxp+jR043CPx+t5fxcbydqVnH/gD7999NTnoPbz6Y8BrJN3q0mwsRuivJY=
+  app:
+    staging: ash-api-staging
