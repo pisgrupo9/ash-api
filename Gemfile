@@ -28,7 +28,7 @@ gem 'rails_12factor', group: :production
 
 # end
 
-group :development do
+group :development, :test do
   # Code analysis tools
   gem 'rails_best_practices', '~> 1.16.0'
   gem 'reek', '~> 1.3.6'
@@ -36,5 +36,7 @@ group :development do
   gem 'pry-byebug', '~> 3.3.0'
   gem 'pry-rails', '~> 0.3.4'
   gem 'quiet_assets', '~> 1.1.0'
+  gem 'rspec-rails', '~> 3.5.1'
+  gem 'factory_girl_rails', '~> 4.7.0'
 end
 
