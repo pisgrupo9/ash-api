@@ -35,7 +35,7 @@ module Api
       def configure_permitted_parameters
         devise_parameter_sanitizer.for :sign_up do |params|
           params.permit(
-            :email, :first_name, :last_name, :password, :password_confirmation
+            :email, :first_name, :last_name, :password, :password_confirmation, :phone
           )
         end
       end

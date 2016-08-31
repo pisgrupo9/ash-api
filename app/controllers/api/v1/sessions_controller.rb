@@ -6,7 +6,7 @@ module Api
       # POST /resource/sign_in
       def create
         resource = warden.authenticate! scope: resource_name, recall: "#{controller_path}#failure"
-        sign_in_and_redirect(resource_name, resource)
+        resource.account_active? ? sign_in_and_redirect(resource_name, resource) : inactive_account_failure
       end
 
       def sign_in_and_redirect(resource_or_scope, resource = nil)
@@ -25,6 +25,10 @@ module Api
 
       def failure
         render json: { errors: ['Login failed.'] }, status: :bad_request
+      end
+
+      def inactive_account_failure
+        render json: { errors: ['Inactive account.'] }, status: :forbidden
       end
 
       private
