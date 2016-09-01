@@ -22,9 +22,11 @@
 #  index_admin_users_on_reset_password_token  (reset_password_token) UNIQUE
 #
 
-class AdminUser < ActiveRecord::Base
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable,
-         :recoverable, :rememberable, :trackable, :validatable
+FactoryGirl.define do
+  factory :admin_user do
+  	sequence(:first_name, 1) { |n| "Albo#{n}" }
+    sequence(:last_name, 1) { |n| "Roto#{n}" }
+    email     { Faker::Internet.email }
+    password  { Faker::Internet.password(8) }
+  end
 end
