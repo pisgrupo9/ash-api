@@ -12,8 +12,6 @@
 #  last_name              :string           not null
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
-#  phone                  :string
-#  account_active         :boolean          default("false")
 #
 # Indexes
 #
@@ -22,10 +20,10 @@
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
 #
 
-class User < ActiveRecord::Base
-  include Authenticable
+require 'test_helper'
 
-  def account_active?
-    account_active
-  end
+class UserTest < ActiveSupport::TestCase
+  # test "the truth" do
+  #   assert true
+  # end
 end
