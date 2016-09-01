@@ -14,6 +14,7 @@
 #  updated_at             :datetime         not null
 #  phone                  :string
 #  account_active         :boolean          default("false")
+#  access_level           :integer          default("0")
 #
 # Indexes
 #
@@ -24,7 +25,7 @@
 
 class User < ActiveRecord::Base
   include Authenticable
-
+  enum access_level:  [:user, :admin]
   def account_active?
     account_active
   end
