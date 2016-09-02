@@ -9,6 +9,8 @@ gem 'pg', '~> 0.18.2'
 gem 'annotate', '~> 2.6.5'
 gem 'activeadmin', '~> 1.0.0.pre1'
 
+gem 'pundit', '~>1.1.0'
+
 gem 'devise', '~> 3.5.1'
 gem 'simple_token_authentication', '~> 1.6.0'
 

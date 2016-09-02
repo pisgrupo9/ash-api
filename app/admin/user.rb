@@ -1,11 +1,13 @@
 ActiveAdmin.register User do
-  permit_params :email, :first_name, :last_name
+  permit_params :email, :first_name, :last_name, :access_level, :account_active
 
   form do |f|
     f.inputs 'Details' do
       f.input :email
       f.input :first_name
       f.input :last_name
+      f.input :account_active
+      f.input :access_level
     end
 
     f.actions
@@ -19,6 +21,8 @@ ActiveAdmin.register User do
     column :last_name
     column :created_at
     column :updated_at
+    column :account_active
+    column :access_level
 
     actions
   end

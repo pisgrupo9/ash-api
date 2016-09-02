@@ -10,6 +10,12 @@ module Api
         end
       end
 
+      def index
+        @users = User.all
+        authorize User
+        render json: @users
+      end
+
       private
 
       def render_bad_request
