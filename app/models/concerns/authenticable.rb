@@ -15,15 +15,5 @@ module Authenticable
       self.authentication_token = ''
       self.save!
     end
-
-    # protected
-
-    # def password_required?
-    #   !password.nil? || !password_confirmation.nil?
-    # end
-
-    # def email_required?
-    #   false
-    # end
   end
 end

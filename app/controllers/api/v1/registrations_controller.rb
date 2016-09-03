@@ -1,6 +1,7 @@
 module Api
   module V1
     class RegistrationsController < Devise::RegistrationsController
+      include Concerns::Authenticable
       before_action :configure_permitted_parameters, only: [:create]
       skip_before_filter :verify_authenticity_token, if: :json_request?
 
