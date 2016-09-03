@@ -13,7 +13,7 @@ module Api
         scope = Devise::Mapping.find_scope! resource_or_scope
         resource ||= resource_or_scope
         sign_in(scope, resource) unless warden.user(scope) == resource
-        render json: { token: resource.authentication_token, email: resource.email }
+        render json: { id: resource.id, token: resource.authentication_token, email: resource.email }
       end
 
       # DELETE /resource/sign_out
