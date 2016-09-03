@@ -1,6 +1,7 @@
 module Api
   module V1
     class PasswordsController < Devise::PasswordsController
+      include Concerns::Authenticable
       skip_before_filter :verify_authenticity_token, if: :json_request?
 
       def create
