@@ -11,7 +11,6 @@ gem 'activeadmin', '~> 1.0.0.pre1'
 
 gem 'devise', '~> 3.5.1'
 gem 'simple_token_authentication', '~> 1.6.0'
-gem 'jquery-ui-rails', '~> 5.0.5'
 
 gem 'rack-cors', '~> 0.4.0', require: 'rack/cors'
 
@@ -31,8 +30,6 @@ group :development, :test do
   gem 'rspec-rails', '~> 3.5'
   gem 'spork-rails', '~> 4.0.0'
   gem 'thin', '~> 1.6.3'
-   gem 'database_cleaner', '~> 1.4.1'
-  gem 'shoulda-matchers', '~> 2.8.0'
 end
 
 group :development do
@@ -45,8 +42,8 @@ group :development do
   gem 'quiet_assets', '~> 1.1.0'
 end
 
-#group :test do
- # gem 'database_cleaner', '~> 1.4.1'
- # gem 'shoulda-matchers', '~> 2.8.0'
-#end
+group :test do
+  gem 'database_cleaner', '~> 1.4.1'
+  gem 'shoulda-matchers', '~> 2.8.0'
+end
 

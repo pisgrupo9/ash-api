@@ -299,7 +299,6 @@ DEPENDENCIES
   factory_girl_rails (~> 4.5.0)
   faker (~> 1.4.3)
   jbuilder (~> 2.0)
-  jquery-ui-rails (~> 5.0.5)
   pg (~> 0.18.2)
   pry-byebug (~> 3.3.0)
   pry-rails (~> 0.3.4)
