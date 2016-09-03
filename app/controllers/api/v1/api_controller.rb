@@ -18,12 +18,12 @@ module Api
 
       def render_forbidden_access(exception)
         logger.info(exception) # for logging
-        render json: { error: 'Not Authorized' }, status: :forbidden
+        render json: { error: 'No Autorizado' }, status: :forbidden
       end
 
       def render_not_found(exception)
         logger.info(exception) # for logging
-        render json: { error: "Couldn't find the record" }, status: :not_found
+        render json: { error:  'No se pudo encontrar el registro' }, status: :not_found
       end
 
       def render_record_invalid(exception)
