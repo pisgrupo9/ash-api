@@ -8,8 +8,7 @@ module Api
         build_resource(sign_up_params)
         resource_saved = resource.save
         if resource_saved
-          save_success
-          render json: { token: resource.authentication_token, email: resource.email }
+          render json: { email: resource.email }
         else
           save_fail
           render json: { error: resource.errors }, status: :bad_request
@@ -17,14 +16,6 @@ module Api
       end
 
       protected
-
-      def save_success
-        if resource.active_for_authentication?
-          sign_up(resource_name, resource)
-        else
-          expire_data_after_sign_in!
-        end
-      end
 
       def save_fail
         clean_up_passwords resource
