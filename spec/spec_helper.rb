@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 require 'rubygems'
 require 'spork'
 # uncomment the following line to use spork with the debugger
@@ -51,7 +53,11 @@ Spork.prefork do
 
     config.after do
       DatabaseCleaner.clean
-   end
+    end
+
+    # Uncomment if you want to include Devise. Add devise to your gemfile
+    # config.include Devise::TestHelpers, type: :controller
+
   end
 end
 

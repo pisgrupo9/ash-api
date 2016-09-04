@@ -27,7 +27,7 @@ gem 'rails_12factor', group: :production
 group :development, :test do
   gem 'factory_girl_rails', '~> 4.5.0'
   gem 'faker', '~> 1.4.3'
-  gem 'rspec-rails', '~> 3.5'
+  gem 'rspec-rails', '~> 3.5.2'
   gem 'spork-rails', '~> 4.0.0'
   gem 'thin', '~> 1.6.3'
 end
@@ -46,4 +46,3 @@ group :test do
   gem 'database_cleaner', '~> 1.4.1'
   gem 'shoulda-matchers', '~> 2.8.0'
 end
-
