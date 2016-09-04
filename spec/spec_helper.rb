@@ -19,6 +19,7 @@ Spork.prefork do
   require 'factory_girl_rails'
   require 'helpers'
 
+
   FactoryGirl.factories.clear
   FactoryGirl.reload
 
@@ -41,6 +42,9 @@ Spork.prefork do
     config.infer_spec_type_from_file_location!
 
     config.include FactoryGirl::Syntax::Methods
+
+    # Uncomment if you want to include Devise. Add devise to your gemfile
+    config.include Devise::TestHelpers, type: :controller
 
     config.before :each do |example_group|
       DatabaseCleaner.strategy = :truncation

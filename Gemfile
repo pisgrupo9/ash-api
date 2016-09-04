@@ -24,9 +24,13 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 gem 'rails_12factor', group: :production
 
-# group :development, :test do
-
-# end
+group :development, :test do
+  gem 'factory_girl_rails', '~> 4.5.0'
+  gem 'faker', '~> 1.4.3'
+  gem 'rspec-rails', '~> 3.5.2'
+  gem 'spork-rails', '~> 4.0.0'
+  gem 'thin', '~> 1.6.3'
+end
 
 group :development do
   # Code analysis tools
@@ -36,14 +40,6 @@ group :development do
   gem 'pry-byebug', '~> 3.3.0'
   gem 'pry-rails', '~> 0.3.4'
   gem 'quiet_assets', '~> 1.1.0'
-end
-
-group :development, :test do
-  gem 'factory_girl_rails', '~> 4.7.0'
-  gem 'faker', '~> 1.4.3'
-  gem 'rspec-rails', '~> 3.5.1'
-  gem 'spork-rails', '~> 4.0.0'
-  gem 'thin', '~> 1.6.3'
 end
 
 group :test do
