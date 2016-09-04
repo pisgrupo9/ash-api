@@ -6,9 +6,7 @@ module Authenticable
     devise :database_authenticatable,  #  Password and password confirmation fields
            :recoverable,               #  Reset the password
            :registerable,
-           :validatable               #  Validate the email
-
-    validates :email, uniqueness: true
+           :validatable                #  Validate the email
     validates :encrypted_password, uniqueness: false
 
     def invalidate_token
