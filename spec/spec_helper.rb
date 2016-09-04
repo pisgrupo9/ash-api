@@ -42,6 +42,15 @@ Spork.prefork do
 
     config.include FactoryGirl::Syntax::Methods
 
+    config.before :each do |example_group|
+      DatabaseCleaner.strategy = :truncation
+      DatabaseCleaner.start
+    end
+
+    config.after do
+      DatabaseCleaner.clean
+    end
+
     # Uncomment if you want to include Devise. Add devise to your gemfile
     # config.include Devise::TestHelpers, type: :controller
 

@@ -8,15 +8,67 @@ describe Api::V1::SessionsController do
   end
 
   describe 'POST #create' do
-    let(:password) { 'mypass123' }    
-    let!(:user)    { create(:user, password: password) }
-    let(:email)    { user.email }
-    let(:params)   { { email: email, password: password} }
+   
+    context 'de un usuario' do
 
-    context 'with valid login' do
-      it 'returns the user json' do
-        post :create, user: params, format: 'json'       
-        expect(parse_response(response)['token']).to_not be_nil
+      context 'con cuenta activada' do
+        let(:password) { 'fernetConCoca' }        
+        let(:user)    { create(:user, password: password,  account_active: "true") }
+        let(:email)    { user.email }
+        let(:params)   { { email: email, password: password, account_active: "true"} }
+        
+        it 'devuelve el token del usuario' do
+          post :create, user: params, format: 'json'       
+          expect(parse_response(response)['token']).to_not be_nil
+        end
+    end
+      
+      context 'con cuenta inactiva' do
+        let(:password) { 'fernetConCoca' }
+        let(:user)    { create(:user, password: password) }        
+        let(:email)    { user.email }
+        let(:params)   { { email: email, password: password, account_active: "true"} }
+       
+        it 'devuelve Inactive account' do        
+          post :create, user: params, format: 'json'       
+          expect(parse_response(response)['errors']).to eq(['Inactive account.'])
+        end
+      end
+
+      context 'no exitoso' do
+        context 'cuando las contrasenas no coinciden' do
+          let!(:user)    { create(:user, password: "password1", account_active: "true") }
+          let(:email)    { user.email }        
+          let(:params)   { { email: email, password: "password2", account_active: "true"} }
+
+          it 'devuelve error' do
+            post :create, user: params, format: 'json'
+            expect(parse_response(response)['error']).to eq('authentication error')
+          end
+        end
+
+        context 'cuando el email no es correcto' do
+          let!(:user)    { create(:user, email: "isaIv@fing.edu.uy", password: "password1", account_active: "true") }
+          let(:password) { user.password }        
+          let(:params)   { {email: "isaIv2@fing.edu.uy", password: password, account_active: "true"} }
+
+          it 'devuelve un error' do
+            post :create, user: params, format: 'json'
+            expect(parse_response(response)['error']).to eq('authentication error')
+          end
+        end
+      end
+    end
+  end
+
+  describe 'DELETE destroy' do
+    context 'exitoso de un sesion de un usuario' do
+      let(:user)    { create(:user, password: "password1", account_active: "true") }      
+      let(:params)   { {email: "isaIv7@fing.edu.uy", password: "password1", account_active: "true"} }
+
+      it 'devuelve el token vacío' do
+        delete :destroy, user: params, format: 'json'
+        expect(user.reload.authentication_token).to eq('')
       end
     end
   end
