@@ -61,15 +61,28 @@ describe Api::V1::SessionsController do
     end
   end
 
-  describe 'DELETE destroy' do
-    context 'exitoso de un sesion de un usuario' do
-      let(:user)    { create(:user, password: "password1", account_active: "true") }      
-      let(:params)   { {email: "isaIv7@fing.edu.uy", password: "password1", account_active: "true"} }
+  # describe 'DELETE destroy' do
+  #   context 'exitoso de un sesion de un usuario' do
+  #     let(:user)    { create(:user, password: "password1", account_active: "true") }      
+  #     let(:params)   { {email: "isaIv7@fing.edu.uy", password: "password1", account_active: "true"} }
 
-      it 'devuelve el token vacío' do
-        delete :destroy, user: params, format: 'json'
-        expect(user.reload.authentication_token).to eq('')
-      end
+  #     it 'devuelve el token vacío' do
+  #       delete :destroy, user: params, format: 'json'
+  #       expect(user.reload.authentication_token).to eq('')
+  #     end
+  #   end
+  # end
+
+  describe "DELETE destroy" do
+
+    before(:each) do
+      @user = FactoryGirl.create :user
+      sign_in @user
+      delete :destroy, id: @user.authentication_token
     end
+
+    it { should respond_with 204 }
+
   end
+
 end
