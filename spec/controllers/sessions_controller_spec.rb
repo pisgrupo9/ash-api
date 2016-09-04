@@ -73,16 +73,12 @@ describe Api::V1::SessionsController do
   #   end
   # end
 
-  describe "DELETE destroy" do
-
+  describe "DELETE #destroy" do
     before(:each) do
-      @user = FactoryGirl.create :user
-      sign_in @user
+      @user = FactoryGirl.create(:user, password: 'password111',  account_active: "true")
+      sign_in @user      
       delete :destroy, id: @user.authentication_token
     end
-
     it { should respond_with 204 }
-
   end
-
 end

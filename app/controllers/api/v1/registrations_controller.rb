@@ -7,7 +7,7 @@ module Api
       def create
         build_resource(sign_up_params)
         resource_saved = resource.save
-        if resource_saved        
+        if resource_saved
           render json: { email: resource.email }
         else
           save_fail

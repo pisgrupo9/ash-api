@@ -46,7 +46,7 @@ group :development, :test do
   gem 'thin', '~> 1.6.3'
 end
 
-group :test do  
+group :test do
   gem 'database_cleaner', '~> 1.4.1'
   gem 'shoulda-matchers', '~> 2.8.0'
 end
