@@ -24,8 +24,18 @@
 
 class User < ActiveRecord::Base
   include Authenticable
+  before_update :send_mail_accepted_user, if: :account_active_changed?
+  before_destroy :send_mail_rejected_user
 
   def account_active?
     account_active
+  end
+
+  def send_mail_accepted_user
+    UserMailer.accepted_user_email(self).deliver_now
+  end
+
+  def send_mail_rejected_user
+    UserMailer.rejected_user_email(self).deliver_now
   end
 end
