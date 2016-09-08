@@ -14,6 +14,7 @@
 #  updated_at             :datetime         not null
 #  phone                  :string
 #  account_active         :boolean          default("false")
+#  permissions            :integer          default("0")
 #
 # Indexes
 #
@@ -26,6 +27,8 @@ class User < ActiveRecord::Base
   include Authenticable
   before_update :send_mail_accepted_user, if: :account_active_changed?
   before_destroy :send_mail_rejected_user
+
+  enum permissions:  [:default_user, :animals_edit, :adopters_edit]
 
   def account_active?
     account_active

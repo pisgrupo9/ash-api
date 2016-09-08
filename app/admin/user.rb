@@ -1,6 +1,6 @@
 ActiveAdmin.register User do
   permit_params :email, :first_name, :last_name,
-                :phone, :password, :password_confirmation, :account_active
+                :phone, :password, :password_confirmation, :account_active, :permissions
 
   member_action :update_account, method: :post
 
@@ -10,6 +10,7 @@ ActiveAdmin.register User do
       f.input :first_name
       f.input :last_name
       f.input :phone
+      f.input :permissions, include_blank: false
       f.input :password
       f.input :password_confirmation
     end
@@ -25,6 +26,7 @@ ActiveAdmin.register User do
     column :last_name
     column :phone
     column :account_active
+    column :permissions
     column :created_at
     column :updated_at
 

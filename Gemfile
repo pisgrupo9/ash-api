@@ -12,6 +12,8 @@ gem 'activeadmin', '~> 1.0.0.pre1'
 gem 'devise', '~> 3.5.1'
 gem 'simple_token_authentication', '~> 1.6.0'
 
+gem 'pundit', '~>1.1.0'
+
 gem 'rack-cors', '~> 0.4.0', require: 'rack/cors'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder

@@ -10,6 +10,30 @@ module Api
         end
       end
 
+      def index
+        @users = User.all
+        authorize User
+        render json: @users
+      end
+
+      def isanimalsedit
+        @permiso = current_user.permissions
+        authorize User
+        render json: @permiso
+      end
+
+      def isadoptersedit
+        @permiso = current_user.permissions
+        authorize User
+        render json: @permiso
+      end
+
+      def isdefaultuser
+        @permiso = current_user.permissions
+        authorize User
+        render json: @permiso
+      end
+
       private
 
       def render_bad_request
