@@ -10,6 +10,7 @@ module Api
         resource_saved = resource.save
         if resource_saved
           render json: { email: resource.email }
+          UserMailer.welcome_email(resource).deliver_now
         else
           save_fail
           render json: { error: resource.errors }, status: :bad_request

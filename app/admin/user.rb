@@ -62,7 +62,7 @@ ActiveAdmin.register User do
     before_action :load_user, only: [:update_account]
 
     def update_account
-      @user.account_active ? @user.delete : @user.update(account_active: true)
+      @user.account_active ? @user.destroy : @user.update(account_active: true)
       redirect_to(admin_users_path)
     end
 

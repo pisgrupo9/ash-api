@@ -40,10 +40,10 @@ group :development do
   gem 'pry-byebug', '~> 3.3.0'
   gem 'pry-rails', '~> 0.3.4'
   gem 'quiet_assets', '~> 1.1.0'
+  gem 'letter_opener', '~> 1.4.1'
 end
 
 group :test do
   gem 'database_cleaner', '~> 1.4.1'
   gem 'shoulda-matchers', '~> 2.8.0'
 end
-
