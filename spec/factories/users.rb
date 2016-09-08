@@ -15,6 +15,7 @@
 #  updated_at             :datetime         not null
 #  phone                  :string
 #  account_active         :boolean          default("false")
+#  permissions            :integer          default("0")
 #
 # Indexes
 #
@@ -22,7 +23,6 @@
 #  index_users_on_email                 (email) UNIQUE
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
 #
-
 
 # Read about factories at https://github.com/thoughtbot/factory_girl
 

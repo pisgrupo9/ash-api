@@ -13,7 +13,10 @@ Rails.application.routes.draw do
 
   namespace :api, defaults: { format: :json }  do
     namespace :v1 do
-      resources :users, only: [:update]
+      get 'users/isanimalsedit', to: 'users#isanimalsedit'
+      get 'users/isadoptersedit', to: 'users#isadoptersedit'
+      get 'users/isdefaultuser', to: 'users#isdefaultuser'
+      resources :users, only: [:update,:index]
     end
   end
 end
