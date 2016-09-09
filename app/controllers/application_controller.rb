@@ -5,9 +5,9 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :null_session
   acts_as_token_authentication_handler_for User, fallback_to_devise: false
   rescue_from ActionController::ParameterMissing do
-    render json: { error: 'Parameter Missing' }, status: 400
+    render json: { error: 'Faltan parámetros' }, status: 400
   end
   rescue_from Pundit::NotAuthorizedError do
-    render json: { error: "Doesn't have permissions" }, status: 403
+    render json: { error: 'Faltan permisos' }, status: 403
   end
 end

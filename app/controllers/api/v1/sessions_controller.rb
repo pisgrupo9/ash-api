@@ -26,11 +26,11 @@ module Api
       end
 
       def failure
-        render json: { errors: ['Login failed.'] }, status: :bad_request
+        render json: { errors: ['Falló el login.'] }, status: :bad_request
       end
 
       def inactive_account_failure
-        render json: { errors: ['Inactive account.'] }, status: :forbidden
+        render json: { errors: ['Cuenta inactiva.'] }, status: :forbidden
       end
 
       private
