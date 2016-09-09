@@ -1,6 +1,6 @@
 ActiveAdmin.register User do
   permit_params :email, :first_name, :last_name,
-                :phone, :password, :password_confirmation, :account_active, :permissions
+                :phone, :account_active, :permissions
 
   member_action :update_account, method: :post
 
@@ -11,8 +11,6 @@ ActiveAdmin.register User do
       f.input :last_name
       f.input :phone
       f.input :permissions, include_blank: false
-      f.input :password
-      f.input :password_confirmation
     end
 
     f.actions
@@ -57,7 +55,6 @@ ActiveAdmin.register User do
       row :created_at
       row :updated_at
     end
-    active_admin_comments
   end
 
   controller do
