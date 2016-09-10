@@ -16,7 +16,7 @@ Rails.application.routes.draw do
       get 'users/isanimalsedit', to: 'users#isanimalsedit'
       get 'users/isadoptersedit', to: 'users#isadoptersedit'
       get 'users/isdefaultuser', to: 'users#isdefaultuser'
-      resources :users, only: [:update,:index]
+      resources :users, only: [:update,:index,:show]
     end
   end
 end
