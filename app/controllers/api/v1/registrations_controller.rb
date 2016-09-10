@@ -4,13 +4,15 @@ module Api
       include Concerns::Authenticable
       before_action :configure_permitted_parameters, only: [:create]
       skip_before_filter :verify_authenticity_token, if: :json_request?
+      before_action :set_admin, only: [:create]
 
       def create
         build_resource(sign_up_params)
         resource_saved = resource.save
         if resource_saved
-          render json: { email: resource.email }
+          AdminMailer.new_user_mail(@admin).deliver_now
           UserMailer.welcome_email(resource).deliver_now
+          render json: { email: resource.email }
         else
           save_fail
           render json: { error: resource.errors }, status: :bad_request
@@ -35,6 +37,10 @@ module Api
 
       def json_request?
         request.format.json?
+      end
+
+      def set_admin
+        @admin = AdminUser.first
       end
     end
   end
