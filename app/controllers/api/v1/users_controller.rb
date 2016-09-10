@@ -13,7 +13,10 @@ module Api
       def index
         @users = User.all
         authorize User
-        render json: @users
+      end
+
+      def show
+        @user = current_user
       end
 
       def show
