@@ -10,10 +10,9 @@ describe Api::V1::SessionsController do
   describe 'POST #create' do
 
     context 'de un usuario' do
-
       context 'con cuenta activada' do
-        let(:user)    { create(:user, password: 'password1234', email: 'dabvadsbv@mail.com', account_active: "true") }
-        let(:params)   { { email: user.email, password: user.password } }
+        let(:user)  { create(:user, password: 'password1234', email: 'userAsh@mail.com', account_active: "true") }
+        let(:params)  { { email: user.email, password: user.password } }
 
         it 'devuelve el token del usuario' do
           post :create, user: params, format: 'json'
@@ -22,8 +21,8 @@ describe Api::V1::SessionsController do
     end
 
       context 'con cuenta inactiva' do
-        let(:user)    { create(:user, password: 'password1234', email: 'asvasv@mail.com') }
-        let(:params)   { { email: user.email, password: user.password } }
+        let(:user)  { create(:user, password: 'password1234', email: 'userAsh2@mail.com') }
+        let(:params)  { { email: user.email, password: user.password } }
 
         it 'devuelve Inactive account' do
           post :create, user: params, format: 'json'
@@ -34,7 +33,7 @@ describe Api::V1::SessionsController do
       context 'no exitoso' do
         context 'cuando las contraseñas no coinciden' do
           user = FactoryGirl.create(:user, password: "password1")
-          let(:params)   { { email: user.email, password: "password2" } }
+          let(:params)  { { email: user.email, password: "password2" } }
 
           it 'devuelve error' do
             post :create, user: params, format: 'json'
@@ -43,8 +42,8 @@ describe Api::V1::SessionsController do
         end
 
         context 'cuando el email no es correcto' do
-          user = FactoryGirl.create(:user, email: "aaaavvdsav@fing.edu.uy")
-          let(:params)   { {email: "generic4@fing.edu.uy", password: user.password } }
+          user = FactoryGirl.create(:user, email: "userAsh3@fing.edu.uy")
+          let(:params)  { {email: "genericAsh@fing.edu.uy", password: user.password } }
 
           it 'devuelve un error' do
             post :create, user: params, format: 'json'
@@ -58,7 +57,7 @@ describe Api::V1::SessionsController do
   describe "DELETE #destroy" do
 
     context 'sign_in/sign_out' do
-      let(:user) { create(:user) }
+      let(:user)  { create(:user) }
       it 'usuario nil luego del log_out' do
           sign_in user
           expect(subject.current_user).to_not eq(nil)
