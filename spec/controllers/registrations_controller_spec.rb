@@ -26,7 +26,7 @@ describe Api::V1::RegistrationsController, type: :controller do
       }
     end
     context 'crea una cuenta exitosamente' do
-
+      
       it 'devuelve un 200 OK' do
         post :create, user: attrs, format: 'json'
         expect(response.status).to eq(200)

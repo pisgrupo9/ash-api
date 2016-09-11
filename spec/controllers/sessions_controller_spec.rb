@@ -24,7 +24,7 @@ describe Api::V1::SessionsController do
         let(:user)  { create(:user, password: 'password1234', email: 'userAsh2@mail.com') }
         let(:params)  { { email: user.email, password: user.password } }
 
-        it 'devuelve Inactive account' do
+        it 'devuelve cuenta inactiva' do
           post :create, user: params, format: 'json'
           expect(parse_response(response)['errors']).to eq(['Cuenta inactiva.'])
         end
