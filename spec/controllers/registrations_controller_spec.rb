@@ -13,6 +13,7 @@ require 'json'
       let(:email)                 { 'amiguitos@test.com' }
       let(:password)              { 'password' }
       let(:password_confirmation) {'password'}
+      let!(:admin) { create(:admin, email: 'admin@example.com', password: 'password') }
 
       let(:attrs) do
         {
