@@ -21,9 +21,9 @@ describe Api::V1::SessionsController do
     context 'con cuenta inactiva' do
       let(:user) { create(:user, password: 'password123', email: 'user@gmail.com') }
       let(:params) { { email: user.email, password: user.password } }
-      it 'devuelve Inactive account' do
+      it 'devuelve Cuenta inactiva' do
         post :create, user: params, format: 'json'
-        expect(parse_response(response)['errors']).to eq(['Inactive account.'])
+        expect(parse_response(response)['errors']).to eq(['Cuenta inactiva.'])
       end
     end
 
