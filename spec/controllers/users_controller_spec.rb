@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe Api::V1::UsersController do
- 
+
   let!(:user1) { create(:user, account_active: 'true', permissions: 'default_user') }
   let!(:user2) { create(:user, account_active: 'true', permissions: 'animals_edit') }
   let!(:user3) { create(:user, account_active: 'true', permissions: 'adopters_edit') }
@@ -60,20 +60,6 @@ describe Api::V1::UsersController do
     end
   end
 
-  describe 'GET #index' do
-    it 'retorna operacion satisfactoria con codigo 200' do
-      sign_in user1
-      get :index, format: :json
-      expect(response.status).to eq(200)
-    end
-
-    it 'retorna los usuarios registrados del sistema' do
-      sign_in user1
-      get :index, format: :json
-      expect(assigns(:users)).to eq([user1,user2,user3])
-    end
-  end
-
   describe 'GET #show' do
     it "retorna operacion exitosa" do
       sign_in user1
@@ -85,66 +71,6 @@ describe Api::V1::UsersController do
       sign_in user1
       get :show, id: user1, format: :json
       expect(parse_response(response)).to eq(user1.as_json(only: [:id, :email, :first_name, :last_name, :phone, :account_active, :permissions]))
-    end
-  end
-
-  describe 'GET #isanimalsedit' do
-    it "retorna codigo 403 con un usuario que tiene permisos basicos" do
-      sign_in user1
-      get :isanimalsedit
-      expect(response.status).to eq(403)
-    end
-
-    it "retorna codigo 403 con un usuario que tiene permiso de editar adoptantes" do
-      sign_in user3
-      get :isanimalsedit
-      expect(response.status).to eq(403)
-    end
-
-    it "retorna operacion exitosa con un usuario que tiene permiso de editar animales" do
-      sign_in user2
-      get :isanimalsedit
-      expect(response.status).to eq(200)
-    end
-  end
-
-  describe 'GET #isadoptersedit' do
-    it "retorna codigo 403 con un usuario que tiene permisos basicos" do
-      sign_in user1
-      get :isadoptersedit
-      expect(response.status).to eq(403)
-    end
-
-    it "retorna operacion exitosa con un usuario que tiene permiso de editar adoptantes" do
-      sign_in user3
-      get :isadoptersedit
-      expect(response.status).to eq(200)
-    end
-
-    it "retorna codigo 403 con un usuario que tiene permiso de editar animales" do
-      sign_in user2
-      get :isadoptersedit
-      expect(response.status).to eq(403)
-    end
-  end
-
-  describe 'GET #isdefaultuser' do
-    it "retorna operacion exitosa con un usuario que tiene permisos basicos" do
-      sign_in user1
-      get :isdefaultuser
-      expect(response.status).to eq(200)
-    end
-
-    it "retorna codigo 403 con un usuario que tiene permiso de editar adoptantes" do
-      sign_in user3
-      get :isdefaultuser
-      expect(response.status).to eq(403)
-    end
-
-    it "retorna codigo 403 con un usuario que tiene permiso de editar animales" do
-      sign_in user2
-      get :isdefaultuser
-      expect(response.status).to eq(403)
     end
   end
 end
