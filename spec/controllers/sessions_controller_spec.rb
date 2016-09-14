@@ -26,7 +26,7 @@ describe Api::V1::SessionsController do
 
         it 'devuelve Inactive account' do
           post :create, user: params, format: 'json'
-          expect(parse_response(response)['errors']).to eq(['Inactive account.'])
+          expect(parse_response(response)['errors']).to eq(['Cuenta inactiva.'])
         end
       end
 

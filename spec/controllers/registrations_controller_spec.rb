@@ -3,6 +3,8 @@ require 'json'
 
 describe Api::V1::RegistrationsController, type: :controller do
   let!(:user)  { create(:user) }
+  let!(:admin)  { create(:admin) }
+
   before(:each) do
     @request.env['devise.mapping'] = Devise.mappings[:user]
   end
@@ -10,7 +12,7 @@ describe Api::V1::RegistrationsController, type: :controller do
   describe "POST 'users/'" do
     let(:first_name)  { 'Isabella' }
     let(:last_name)  { 'Test' }
-    let(:email)  { 'amiguitos@test.com' }
+    let(:email)  { 'juana@example.com' }
     let(:password)  { 'password' }
     let(:password_confirmation)  {'password'}
 
@@ -27,14 +29,12 @@ describe Api::V1::RegistrationsController, type: :controller do
 
       it 'devuelve un 200 OK' do
         post :create, user: attrs, format: 'json'
-
         expect(response.status).to eq(200)
       end
 
       it 'devuelve un nuevo usurio creado' do
         post :create, user: attrs, format: 'json'
-
-        new_user = User.find_by_email('amiguitos@test.com')
+        new_user = User.find_by_email('juana@example.com')
         expect(new_user).to_not be_nil
       end
     end
@@ -48,7 +48,6 @@ describe Api::V1::RegistrationsController, type: :controller do
 
       it 'devuelve un 400 bad request' do
         post :create, user: attrs, format: 'json'
-
         expect(response.response_code).to eq(400)
       end
 
@@ -61,7 +60,6 @@ describe Api::V1::RegistrationsController, type: :controller do
 
         it 'devuelve un 400 bad request' do
           post :create, user: attrs, format: 'json'
-
           expect(response.response_code).to eq(400)
         end
       end
