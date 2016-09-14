@@ -13,9 +13,6 @@ Rails.application.routes.draw do
 
   namespace :api, defaults: { format: :json }  do
     namespace :v1 do
-      get 'users/isanimalsedit', to: 'users#isanimalsedit'
-      get 'users/isadoptersedit', to: 'users#isadoptersedit'
-      get 'users/isdefaultuser', to: 'users#isdefaultuser'
       resources :users, only: [:update,:index,:show]
       resources :animals, except: [:new, :edit]
       resources :species, only: [:index]
