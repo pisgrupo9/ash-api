@@ -13,12 +13,10 @@ module Api
       def index
         @users = User.all
         authorize User
-        render json: @users
       end
 
       def show
         @user = current_user
-        render json: @user.as_json(only: [:id, :email, :first_name, :last_name, :phone, :account_active, :permissions])
       end
 
       def isanimalsedit
