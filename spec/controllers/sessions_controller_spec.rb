@@ -3,43 +3,48 @@
 require 'spec_helper'
 
 describe Api::V1::SessionsController do
-  before :each do*
+  before :each do
     @request.env['devise.mapping'] = Devise.mappings[:user]
   end
 
   describe 'POST #create' do
+
     context 'de un usuario' do
       context 'con cuenta activada' do
-        let(:user) { create(:user, password: 'password123', email: 'user@gmail.com', account_active: "true") }
-        let(:params) { { email: user.email, password: user.password } }
+        let(:user)  { create(:user, password: 'password1234', email: 'userAsh@mail.com', account_active: "true") }
+        let(:params)  { { email: user.email, password: user.password } }
+
         it 'devuelve el token del usuario' do
           post :create, user: params, format: 'json'
           expect(parse_response(response)['token']).to_not be_nil
         end
     end
 
-    context 'con cuenta inactiva' do
-      let(:user) { create(:user, password: 'password123', email: 'user@gmail.com') }
-      let(:params) { { email: user.email, password: user.password } }
-      it 'devuelve Inactive account' do
-        post :create, user: params, format: 'json'
-        expect(parse_response(response)['errors']).to eq(['Inactive account.'])
-      end
-    end
+      context 'con cuenta inactiva' do
+        let(:user)  { create(:user, password: 'password1234', email: 'userAsh2@mail.com') }
+        let(:params)  { { email: user.email, password: user.password } }
 
-    context 'no exitoso' do
-      context 'cuando las contraseñas no coinciden' do
-        user = FactoryGirl.create(:user, password: "password1")
-        let(:params) { { email: user.email, password: "password2" } }
-        it 'devuelve error' do
+        it 'devuelve Inactive account' do
           post :create, user: params, format: 'json'
-          expect(parse_response(response)['error']).to eq('authentication error')
+          expect(parse_response(response)['errors']).to eq(['Cuenta inactiva.'])
         end
       end
 
+      context 'no exitoso' do
+        context 'cuando las contraseñas no coinciden' do
+          user = FactoryGirl.create(:user, password: "password1")
+          let(:params)  { { email: user.email, password: "password2" } }
+
+          it 'devuelve error' do
+            post :create, user: params, format: 'json'
+            expect(parse_response(response)['error']).to eq('authentication error')
+          end
+        end
+
         context 'cuando el email no es correcto' do
-          user = FactoryGirl.create(:user, email: "user@fing.edu.uy")
-          let(:params) { {email: "user2@fing.edu.uy", password: user.password } }
+          user = FactoryGirl.create(:user, email: "userAsh3@fing.edu.uy")
+          let(:params)  { {email: "genericAsh@fing.edu.uy", password: user.password } }
+
           it 'devuelve un error' do
             post :create, user: params, format: 'json'
             expect(parse_response(response)['error']).to eq('authentication error')
@@ -50,8 +55,10 @@ describe Api::V1::SessionsController do
   end
 
   describe "DELETE #destroy" do
+
     context 'sign_in/sign_out' do
-      let(:user) { create(:user) }
+      let(:user)  { create(:user) }
+      
       it 'usuario nil luego del log_out' do
           sign_in user
           expect(subject.current_user).to_not eq(nil)
@@ -76,9 +83,9 @@ describe Api::V1::SessionsController do
 
     context 'exitoso de una sesión de usuario' do
       before(:each) do
-        @user = FactoryGirl.create(:user, password: 'password111',  account_active: "true")
-        sign_in @user
-        delete :destroy, id: @user.authentication_token
+        user = FactoryGirl.create(:user, password: 'password111',  account_active: "true")
+        sign_in user
+        delete :destroy, id: user.authentication_token
       end
       context 'devuelve ok sin contenido' do
         it { expect(response.status).to eq(204) }

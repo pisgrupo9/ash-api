@@ -17,6 +17,8 @@ Spork.prefork do
   require 'factory_girl_rails'
   require 'helpers'
 
+  require 'simplecov'
+  SimpleCov.start
 
   FactoryGirl.factories.clear
   FactoryGirl.reload
@@ -51,7 +53,11 @@ Spork.prefork do
 
     config.after do
       DatabaseCleaner.clean
-   end
+    end
+
+    # This is to render views and use jbuilder
+    config.render_views = true
+
   end
 end
 
