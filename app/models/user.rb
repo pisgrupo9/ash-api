@@ -29,7 +29,7 @@ class User < ActiveRecord::Base
   before_update :send_mail_permissions_changed, if: :permissions_changed_and_is_active?
   before_destroy :send_mail_rejected_user
 
-  enum permissions:  [:default_user, :animals_edit, :adopters_edit]
+  enum permissions:  [:default_user, :animals_edit, :adopters_edit, :super_user]
 
   def account_active?
     account_active

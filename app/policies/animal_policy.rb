@@ -7,14 +7,14 @@ class AnimalPolicy
   end
 
   def create?
-    @current_user.animals_edit?
+    @current_user.animals_edit? || @current_user.super_user?
   end
 
   def update?
-    @current_user.animals_edit?
+    @current_user.animals_edit? || @current_user.super_user?
   end
 
   def destroy?
-    @current_user.animals_edit?
+    @current_user.animals_edit? || @current_user.super_user?
   end
 end
