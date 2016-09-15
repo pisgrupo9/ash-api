@@ -13,4 +13,9 @@ class UserMailer < ApplicationMailer
     @user = user
     mail(to: @user.email, subject: 'Tu solicitud de cuenta ha sido rechazada')
   end
+
+  def permissions_changed_email(user)
+    @user = user
+    mail(to: @user.email, subject: 'Tus permisos en ASH-WEB han sido modificados')
+  end
 end
