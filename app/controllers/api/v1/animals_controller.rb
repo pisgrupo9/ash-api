@@ -14,10 +14,8 @@ module Api
       def create
         authorize Animal
         animal = Animal.new(animal_params)
-        @specie = Species.find(species_params[:species_id])
-        animal.species = @specie
         if animal.save
-          render json: animal, status: :created
+          render json: animal.as_json(only: [:id]), status: :created
         else
           render json: { error: animal.errors.as_json }, status: :unprocessable_entity
         end
@@ -25,8 +23,8 @@ module Api
 
       def update
         authorize Animal
-        if @animal.update(animal_params)
-          render json: @animal, status: :ok
+        if @animal.update(animal_update_params)
+          render json: @animal.as_json(only: [:id]), status: :ok
         else
           render json: { error: @animal.errors.as_json }, status: :bad_request
         end
@@ -46,11 +44,12 @@ module Api
 
       def animal_params
         params.require(:animal).permit(:chip_num, :name, :race, :sex, :vaccines,
-                                       :castrated, :admission_date, :birthdate, :death_date)
+                                       :castrated, :admission_date, :birthdate, :death_date, :species_id)
       end
 
-      def species_params
-        params.require(:animal).permit(:species_id)
+      def animal_update_params
+        params.require(:animal).permit(:race, :sex, :vaccines,
+                                       :castrated, :admission_date, :birthdate, :death_date)
       end
     end
   end
