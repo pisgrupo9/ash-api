@@ -13,7 +13,7 @@ Rails.application.routes.draw do
 
   namespace :api, defaults: { format: :json }  do
     namespace :v1 do
-      resources :users, only: [:update,:index,:show]
+      resources :users, only: [:update,:show]
       resources :animals, except: [:new, :edit] do
         resources :images , only: [:create,:destroy,:show, :index]
       end
