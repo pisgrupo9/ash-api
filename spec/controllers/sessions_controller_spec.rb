@@ -11,24 +11,28 @@ describe Api::V1::SessionsController do
 
     context 'de un usuario' do
       context 'con cuenta activada' do
-        let(:user)  { create(:user, password: 'password1234', email: 'userAsh@mail.com', account_active: "true") }
-        let(:params)  { { email: user.email, password: user.password } }
-
+        before :each do
+          @user = FactoryGirl.create(:user, account_active: "true")
+          sign_in @user
+        end
+        let(:params) { { email: @user.email, password: @user.password } }
         it 'devuelve el token del usuario' do
           post :create, user: params, format: 'json'
           expect(parse_response(response)['token']).to_not be_nil
         end
     end
 
-      context 'con cuenta inactiva' do
-        let(:user)  { create(:user, password: 'password1234', email: 'userAsh2@mail.com') }
-        let(:params)  { { email: user.email, password: user.password } }
-
-        it 'devuelve Inactive account' do
-          post :create, user: params, format: 'json'
-          expect(parse_response(response)['errors']).to eq(['Cuenta inactiva.'])
-        end
+    context 'con cuenta inactiva' do
+      before :each do
+        @user = FactoryGirl.create(:user)
+        sign_in @user
       end
+      let(:params) { { email: @user.email, password: @user.password } }
+      it 'devuelve Cuenta inactiva' do
+        post :create, user: params, format: 'json'
+        expect(parse_response(response)['errors']).to eq(['Cuenta inactiva.'])
+      end
+    end
 
       context 'no exitoso' do
         context 'cuando las contraseñas no coinciden' do
@@ -60,10 +64,10 @@ describe Api::V1::SessionsController do
       let(:user)  { create(:user) }
       
       it 'usuario nil luego del log_out' do
-          sign_in user
-          expect(subject.current_user).to_not eq(nil)
-          sign_out user
-          expect(subject.current_user).to eq(nil)
+        sign_in user
+        expect(subject.current_user).to_not eq(nil)
+        sign_out user
+        expect(subject.current_user).to eq(nil)
       end
     end
 
@@ -74,10 +78,10 @@ describe Api::V1::SessionsController do
         @old_token = @user.authentication_token
       end
       it 'se retornan tokens de autenticacion diferentes' do
-          expect(@user).to_not eq(nil)
-          delete :destroy, id: @user.authentication_token
-          @user.reload
-          expect(@user.authentication_token).to_not eq(@old_token)
+        expect(@user).to_not eq(nil)
+        delete :destroy, id: @user.authentication_token
+        @user.reload
+        expect(@user.authentication_token).to_not eq(@old_token)
       end
     end
 
