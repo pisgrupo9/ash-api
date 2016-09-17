@@ -43,13 +43,13 @@ module Api
       end
 
       def animal_params
-        params.require(:animal).permit(:chip_num, :name, :race, :sex, :vaccines,
-                                       :castrated, :admission_date, :birthdate, :death_date, :species_id)
+        params.require(:animal).permit(:chip_num, :name, :race, :sex, :vaccines, :castrated, :admission_date,
+                                       :birthdate, :death_date, :species_id, :profile_image)
       end
 
       def animal_update_params
         params.require(:animal).permit(:race, :sex, :vaccines,
-                                       :castrated, :admission_date, :birthdate, :death_date)
+                                       :castrated, :admission_date, :birthdate, :death_date, :profile_image)
       end
     end
   end

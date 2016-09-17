@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160909213335) do
+ActiveRecord::Schema.define(version: 20160916235638) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -47,9 +47,19 @@ ActiveRecord::Schema.define(version: 20160909213335) do
     t.integer  "species_id"
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
+    t.string   "profile_image"
   end
 
   add_index "animals", ["species_id"], name: "index_animals_on_species_id", using: :btree
+
+  create_table "images", force: :cascade do |t|
+    t.string   "file"
+    t.integer  "animal_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "images", ["animal_id"], name: "index_images_on_animal_id", using: :btree
 
   create_table "species", force: :cascade do |t|
     t.string   "name"
@@ -77,4 +87,5 @@ ActiveRecord::Schema.define(version: 20160909213335) do
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
   add_foreign_key "animals", "species"
+  add_foreign_key "images", "animals"
 end

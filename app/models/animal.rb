@@ -15,6 +15,7 @@
 #  species_id     :integer
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
+#  profile_image  :string
 #
 # Indexes
 #
@@ -23,6 +24,8 @@
 
 class Animal < ActiveRecord::Base
   belongs_to :species
+  has_many :images, dependent: :destroy
+
   validates :species, presence: true
   validates :chip_num, uniqueness: true, allow_nil: true
   validates :name, presence: true
@@ -31,7 +34,10 @@ class Animal < ActiveRecord::Base
   validates_presence_of :castrated, if: 'castrated.nil?'
   validates :admission_date, presence: true
   validates :birthdate, presence: true
+
   enum sex:  [:male, :female]
+
+  mount_base64_uploader :profile_image, ProfileUploader
 
   private
 
