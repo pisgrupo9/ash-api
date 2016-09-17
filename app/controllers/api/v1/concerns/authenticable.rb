@@ -9,7 +9,7 @@ module Api
 
         def ensure_authenticated_user!
           return true if current_user.present?
-          render json: { errors: ['You need to provide a valid token and email'] }, status: :unauthorized
+          render json: { errors: ['Debe proveer un token válido'] }, status: :unauthorized
         end
 
         def non_authenticable_methods

@@ -12,7 +12,6 @@ module Api
 
       def index
         @users = User.all
-        authorize User
       end
 
       def show

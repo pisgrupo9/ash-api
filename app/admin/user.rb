@@ -29,7 +29,7 @@ ActiveAdmin.register User do
     column :updated_at
 
     actions defaults: true do |user|
-      user.account_active ? text_link = 'Deactivate Account' : text_link = 'Activate Account'
+      user.account_active ? text_link = 'Desactivar Cuenta' : text_link = 'Activar Cuenta'
       link_to "#{text_link}", update_account_admin_user_path(user.id),
               method: :post, data: { no_turbolink: true }, class: 'member_link'
     end
@@ -41,6 +41,7 @@ ActiveAdmin.register User do
   filter :last_name
   filter :phone
   filter :account_active
+  filter :permissions
   filter :created_at
   filter :updated_at
 
@@ -52,6 +53,7 @@ ActiveAdmin.register User do
       row :last_name
       row :phone
       row :account_active
+      row :permissions
       row :created_at
       row :updated_at
     end
