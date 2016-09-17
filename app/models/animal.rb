@@ -24,11 +24,18 @@
 class Animal < ActiveRecord::Base
   belongs_to :species
   validates :species, presence: true
-  validates :name, uniqueness: true, presence: true
-  validates :sex,  presence: true
+  validates :chip_num, uniqueness: true, allow_nil: true
+  validates :name, presence: true
+  validates :name, uniqueness: true, if: :chip_num_nil?
   validates_presence_of :vaccines, if: 'vaccines.nil?'
   validates_presence_of :castrated, if: 'castrated.nil?'
   validates :admission_date, presence: true
   validates :birthdate, presence: true
   enum sex:  [:male, :female]
+
+  private
+
+  def chip_num_nil?
+    chip_num.nil?
+  end
 end
