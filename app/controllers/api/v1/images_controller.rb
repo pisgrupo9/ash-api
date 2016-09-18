@@ -7,7 +7,7 @@ module Api
       end
 
       def index
-        @images = @animal.images
+        @images = @animal.images.page(params[:page]).per(params[:row])
       end
 
       def create
