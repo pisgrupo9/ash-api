@@ -14,7 +14,7 @@ module Api
         authorize @animal
         image = Image.new(file: image_params[:file], animal_id: params[:animal_id])
         if image.save
-          head :created
+          render json: {}, status: :created
         else
           render json: { error: image.errors.as_json }, status: :unprocessable_entity
         end
