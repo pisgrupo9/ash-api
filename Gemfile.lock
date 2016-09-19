@@ -349,6 +349,7 @@ DEPENDENCIES
   faker (~> 1.4.3)
   fog-aws (~> 0.10.0)
   jbuilder (~> 2.0)
+  kaminari (~> 0.17.0)
   letter_opener (~> 1.4.1)
   pg (~> 0.18.2)
   pry-byebug (~> 3.3.0)
