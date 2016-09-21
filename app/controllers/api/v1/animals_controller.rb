@@ -5,7 +5,7 @@ module Api
       respond_to :json
 
       def index
-        @animals = Animal.all
+        @animals = Animal.page(params[:page]).per(params[:row])
       end
 
       def show
