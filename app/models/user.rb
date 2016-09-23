@@ -26,6 +26,7 @@
 class User < ActiveRecord::Base
   include Authenticable
   validates :first_name, :last_name, :encrypted_password, presence: true
+  validates :first_name, :last_name, length: { maximum: 30 }
   validates :phone, presence: true, format: { with: /\A[0-9]{8}[0-9]?\z/ }
   before_update :send_mail_accepted_user, if: :account_active_changed?
   before_update :send_mail_permissions_changed, if: :permissions_changed_and_is_active?
