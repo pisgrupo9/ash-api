@@ -12,4 +12,5 @@ json.animals @animals do |animal|
   json.sex animal.sex
   json.sex animal.sex
   json.species animal.species.name
+  json.profile_image_thumb animal.profile_image.thumb.url
 end
