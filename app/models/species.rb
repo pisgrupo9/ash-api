@@ -10,4 +10,6 @@
 
 class Species < ActiveRecord::Base
   has_many :animals
+
+  validates :name, presence: true, allow_nil: false, uniqueness: true
 end
