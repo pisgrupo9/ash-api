@@ -23,7 +23,7 @@ module Api
 
       def update
         authorize Animal
-        if @animal.update(animal_update_params)
+        if @animal.update(animal_params)
           render json: @animal.as_json(only: [:id]), status: :ok
         else
           render json: { error: @animal.errors.as_json }, status: :bad_request
@@ -44,12 +44,7 @@ module Api
 
       def animal_params
         params.require(:animal).permit(:chip_num, :name, :race, :sex, :vaccines, :castrated, :admission_date,
-                                       :birthdate, :death_date, :species_id, :profile_image)
-      end
-
-      def animal_update_params
-        params.require(:animal).permit(:race, :sex, :vaccines,
-                                       :castrated, :admission_date, :birthdate, :death_date, :profile_image)
+                                       :birthdate, :death_date, :species_id, :weight, :profile_image)
       end
     end
   end
