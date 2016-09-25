@@ -14,3 +14,4 @@ json.animals @animals do |animal|
   json.species_id animal.species_id
   json.profile_image_thumb animal.profile_image.thumb.url
 end
+json.total_pages @animals.total_pages

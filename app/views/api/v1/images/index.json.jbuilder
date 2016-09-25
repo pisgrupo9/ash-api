@@ -5,3 +5,4 @@ json.images @images do |image|
   json.medium image.file.medium.url
   json.maximum image.file.maximun.url
 end
+json.total_pages @images.total_pages
