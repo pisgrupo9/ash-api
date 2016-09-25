@@ -35,7 +35,9 @@ class Animal < ActiveRecord::Base
   validates_presence_of :castrated, if: 'castrated.nil?'
   validates :admission_date, presence: true
   validates :birthdate, presence: true
-  validate :correct_dates
+  validate :correct_death_date, unless: 'death_date.nil?'
+  validate :correct_birthdate
+  validate :correct_admission_date
 
   enum sex:  [:male, :female]
 
@@ -54,16 +56,27 @@ class Animal < ActiveRecord::Base
     chip_num.nil?
   end
 
-  def correct_dates
-    death_date ? ok = dates_compare? && death_compare? : ok = dates_compare?
-    errors.add(:dates, 'Fechas inválidas.') unless ok
+  def correct_death_date
+    errors.add(:death_date, 'La fecha de muerte es inválida.') if validate_death_date?
   end
 
-  def dates_compare?
-    Date.today >= admission_date && admission_date >= birthdate
+  def validate_death_date?
+    Date.today < death_date || death_date < admission_date || death_date < birthdate
   end
 
-  def death_compare?
-    Date.today > death_date && death_date > admission_date
+  def correct_admission_date
+    errors.add(:admission_date, 'La fecha de ingreso es inválida.') if validate_admission_date?
+  end
+
+  def validate_admission_date?
+    Date.today < admission_date || admission_date < birthdate || (death_date < admission_date if death_date)
+  end
+
+  def correct_birthdate
+    errors.add(:birthdate, 'La fecha de nacimiento es inválida.') if validate_birthdate?
+  end
+
+  def validate_birthdate?
+    admission_date < birthdate || Date.today < birthdate || (death_date < birthdate if death_date)
   end
 end
