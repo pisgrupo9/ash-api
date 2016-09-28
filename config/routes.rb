@@ -16,6 +16,7 @@ Rails.application.routes.draw do
       resources :users, only: [:update,:show]
       resources :animals, except: [:new, :edit] do
         resources :images , only: [:create,:destroy,:show, :index]
+        resources :events, only: [:create,:destroy,:show,:index]
       end
       resources :species, only: [:index]
     end
