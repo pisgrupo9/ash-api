@@ -26,6 +26,7 @@
 class Animal < ActiveRecord::Base
   belongs_to :species
   has_many :images, dependent: :destroy
+  has_many :events, dependent: :destroy
 
   validates :species, presence: true
   validates :chip_num, uniqueness: true, allow_nil: true
