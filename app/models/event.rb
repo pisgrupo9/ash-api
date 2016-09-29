@@ -18,4 +18,11 @@ class Event < ActiveRecord::Base
 
   validates :name, :description, :date, :animal_id, presence: true
   validates :name, length: { maximum: 50 }
+  validate :correct_date
+
+  private
+
+  def correct_date
+    errors.add(:date, 'La fecha del evento no es válida.') if date < animal.birthdate
+  end
 end
