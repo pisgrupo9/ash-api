@@ -61,8 +61,9 @@ describe Api::V1::SessionsController do
   describe "DELETE #destroy" do
 
     context 'sign_in/sign_out' do
+    
       let(:user)  { create(:user) }
-      
+
       it 'usuario nil luego del log_out' do
         sign_in user
         expect(subject.current_user).to_not eq(nil)
@@ -87,7 +88,7 @@ describe Api::V1::SessionsController do
 
     context 'exitoso de una sesión de usuario' do
       before(:each) do
-        user = FactoryGirl.create(:user, password: 'password111',  account_active: "true")
+        user = FactoryGirl.create(:user, password: 'password111', account_active: "true")
         sign_in user
         delete :destroy, id: user.authentication_token
       end

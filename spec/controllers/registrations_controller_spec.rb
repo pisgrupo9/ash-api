@@ -15,6 +15,7 @@ describe Api::V1::RegistrationsController, type: :controller do
     let(:email)  { 'juana@example.com' }
     let(:password)  { 'password' }
     let(:password_confirmation)  {'password'}
+    let(:phone) { '099123456' }
 
     let(:attrs) do
       {
@@ -22,7 +23,8 @@ describe Api::V1::RegistrationsController, type: :controller do
         last_name: last_name,
         email: email,
         password: password,
-        password_confirmation: password_confirmation
+        password_confirmation: password_confirmation,
+        phone: phone
       }
     end
     context 'crea una cuenta exitosamente' do

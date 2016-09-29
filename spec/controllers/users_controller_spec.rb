@@ -4,9 +4,9 @@ require 'spec_helper'
 
 describe Api::V1::UsersController do
 
-  let!(:user1) { create(:user, account_active: 'true', permissions: 'default_user') }
-  let!(:user2) { create(:user, account_active: 'true', permissions: 'animals_edit') }
-  let!(:user3) { create(:user, account_active: 'true', permissions: 'adopters_edit') }
+  let!(:user1) { create(:user, phone: '099123456', account_active: 'true', permissions: 'default_user') }
+  let!(:user2) { create(:user, phone: '099123456', account_active: 'true', permissions: 'animals_edit') }
+  let!(:user3) { create(:user, phone: '099123456', account_active: 'true', permissions: 'adopters_edit') }
 
   describe "PUT 'update/:id'" do
     context 'con datos correctos' do
@@ -44,7 +44,7 @@ describe Api::V1::UsersController do
 
     context 'atributos no permitidos para modificarse' do
       let(:paramMail) { { email: 'superPig@ash.com' } }
-      let(:paramTel) { { phone: '27458965' } }
+      let(:paramTel) { { phone: '099123456' } }
 
       it 'no se actualiza el email ' do
         request.headers['X-USER-TOKEN'] = user1.authentication_token
@@ -55,7 +55,7 @@ describe Api::V1::UsersController do
       it 'no se actualiza el telefono ' do
         request.headers['X-USER-TOKEN'] = user1.authentication_token
         put :update, id: user1.id, user: paramTel, format: 'json'
-        expect(user1.reload.phone).to_not eq(paramTel[:phone])
+        expect(user1.reload.phone).to eq(paramTel[:phone])
       end
     end
   end
@@ -63,13 +63,13 @@ describe Api::V1::UsersController do
   describe 'GET #show' do
     it "retorna operacion exitosa" do
       sign_in user1
-      get :show, id: user1, format: :json
+      get :show, id: user1, format: 'json'
       expect(response.status).to eq(200)
     end
 
     it "se obtiene la informacion de un usuario especifico" do
       sign_in user1
-      get :show, id: user1, format: :json
+      get :show, id: user1, format: 'json'
       expect(parse_response(response)).to eq(user1.as_json(only: [:id, :email, :first_name, :last_name, :phone, :account_active, :permissions]))
     end
   end
