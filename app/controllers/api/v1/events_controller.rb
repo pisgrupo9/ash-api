@@ -14,7 +14,7 @@ module Api
         authorize @animal
         event = @animal.events.build(event_params)
         if event.save
-          render json: {}, status: :created
+          render json: event.as_json(only: [:id]), status: :created
         else
           render json: { error: event.errors.as_json }, status: :unprocessable_entity
         end

@@ -1,11 +1,12 @@
 module Api
   module V1
     class AnimalsController < Api::V1::ApiController
-      before_action :set_animal, except: [:index, :create]
+      before_action :set_animal, only: [:show, :update, :destroy]
       respond_to :json
 
       def index
         @animals = Animal.page(params[:page]).per(params[:row])
+        render partial: 'index.json.jbuilder'
       end
 
       def show
@@ -36,6 +37,11 @@ module Api
         head :no_content
       end
 
+      def search
+        @animals = Animal.search(animals_search_params).page(params[:page]).per(params[:row])
+        render partial: 'index.json.jbuilder'
+      end
+
       private
 
       def set_animal
@@ -45,6 +51,10 @@ module Api
       def animal_params
         params.require(:animal).permit(:chip_num, :name, :race, :sex, :vaccines, :castrated, :admission_date,
                                        :birthdate, :death_date, :species_id, :weight, :profile_image)
+      end
+
+      def animals_search_params
+        params.permit(:chip_num, :name, :race, :sex, :vaccines, :castrated, :admission_date, :species_id, :weight)
       end
     end
   end
