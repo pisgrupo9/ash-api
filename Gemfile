@@ -35,6 +35,8 @@ gem 'rails_12factor', group: :production
 # Use delayed jobs
 gem 'delayed_job_active_record', '~> 4.0.3'
 
+gem 'pg_search', '~> 1.0', '>= 1.0.6'
+
 group :development, :test do
   gem 'factory_girl_rails', '~> 4.5.0'
   gem 'faker', '~> 1.6.5'

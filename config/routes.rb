@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   namespace :api, defaults: { format: :json }  do
     namespace :v1 do
       resources :users, only: [:update,:show]
+      get 'animals/search', to: 'animals#search'
       resources :animals, except: [:new, :edit] do
         resources :images , only: [:create,:destroy,:show, :index]
         resources :events, only: [:create,:destroy,:show,:index]
