@@ -15,6 +15,7 @@
 
 class Event < ActiveRecord::Base
   belongs_to :animal
+  has_many :images, dependent: :destroy
 
   validates :name, :description, :date, :animal_id, presence: true
   validates :name, length: { maximum: 50 }
