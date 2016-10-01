@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe Api::V1::PasswordsController do
-	let!(:user)	 { create(:user, password: 'password') }
+	let!(:user)	 { create(:user, password: 'password', phone: '099123456') }
 	let(:password_token)	{ user.send(:set_reset_password_token) }
 	let(:new_password)	{ 'nuevapassword' }
 

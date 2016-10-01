@@ -37,7 +37,7 @@ gem 'delayed_job_active_record', '~> 4.0.3'
 
 group :development, :test do
   gem 'factory_girl_rails', '~> 4.5.0'
-  gem 'faker', '~> 1.4.3'
+  gem 'faker', '~> 1.6.5'
   gem 'rspec-rails', '~> 3.5'
   gem 'spork-rails', '~> 4.0.0'
   gem 'thin', '~> 1.6.3'
