@@ -2,7 +2,7 @@ json.animals @animals do |animal|
   json.name animal.name
   json.id animal.id
   json.chip_num animal.chip_num
-  json.name animal.name
+  json.race animal.race
   json.sex animal.sex_to_s
   json.weight animal.weight
   json.vaccines animal.vaccines
