@@ -2,6 +2,7 @@ module Searchable
   extend ActiveSupport::Concern
   included do
     include PgSearch
+    default_scope { order(created_at: :desc) }
 
     pg_search_scope :by_name, against: :name, using: { tsearch: { prefix: true } }
     pg_search_scope :by_chip_num, against: :chip_num, using: { tsearch: { prefix: true } }
