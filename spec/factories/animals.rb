@@ -37,5 +37,11 @@ FactoryGirl.define do
     profile_image { Faker::Internet.url }
     weight { Faker::Number.number(2) }
     species
+
+    factory :animal_con_evento do
+      after(:create) do |animal|
+        create(:events, animal: animal)
+      end
+    end
   end
 end
