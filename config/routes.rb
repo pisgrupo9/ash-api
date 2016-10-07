@@ -17,6 +17,7 @@ Rails.application.routes.draw do
       get 'animals/search', to: 'animals#search'
       resources :animals, except: [:new, :edit] do
         resources :images , only: [:create,:destroy,:show, :index]
+        get 'events/search', to: 'events#search'
         resources :events, only: [:create,:destroy,:show,:index]
       end
       resources :species, only: [:index]

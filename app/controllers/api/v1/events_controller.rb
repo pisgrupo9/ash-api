@@ -4,6 +4,7 @@ module Api
       before_action :set_animal
       def index
         @events = @animal.events.page(params[:page]).per(params[:row])
+        render partial: 'index.json.jbuilder'
       end
 
       def show
@@ -27,6 +28,11 @@ module Api
         head :no_content
       end
 
+      def search
+        @events = @animal.events.search(search_params).page(params[:page]).per(params[:row])
+        render partial: 'index.json.jbuilder'
+      end
+
       private
 
       def set_animal
@@ -35,6 +41,10 @@ module Api
 
       def event_params
         params.require(:event).permit(:name, :description, :date)
+      end
+
+      def search_params
+        params.permit(:text)
       end
     end
   end
