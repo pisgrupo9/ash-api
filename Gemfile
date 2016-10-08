@@ -54,6 +54,7 @@ group :development do
   gem 'pry-rails', '~> 0.3.4'
   gem 'quiet_assets', '~> 1.1.0'
   gem 'letter_opener', '~> 1.4.1'
+  gem 'aws-sdk', '~> 2.6.6'
 end
 
 group :test do

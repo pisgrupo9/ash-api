@@ -52,6 +52,14 @@ class Animal < ActiveRecord::Base
     end
   end
 
+  def vaccines_to_s
+    vaccines ? 'Si' : 'No'
+  end
+
+  def castrated_to_s
+    castrated ? 'Si' : 'No'
+  end
+
   private
 
   def chip_num_nil?

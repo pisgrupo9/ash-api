@@ -42,7 +42,33 @@ module Api
         render partial: 'index.json.jbuilder'
       end
 
+      def export_search
+        respond_xls
+        render 'excel_url.json.jbuilder'
+      end
+
       private
+
+      def respond_xls
+        @animals = Animal.search(animals_search_params)
+        file = Tempfile.new(['busqueda', '.xls'])
+        file.write(render_to_string 'search.xls.erb')
+        file.rewind
+        file.close
+        upload_excel(file)
+      end
+
+      def upload_excel(file)
+        path = file.path
+        name = File.basename(path)
+        obj = S3_BUCKET.object("uploads/excel/#{name}")
+        obj.upload_file(path)
+        url_set(obj)
+      end
+
+      def url_set(obj)
+        @url = obj.public_url
+      end
 
       def set_animal
         @animal = Animal.find(params[:id])
