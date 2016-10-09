@@ -26,6 +26,8 @@
 class Animal < ActiveRecord::Base
   include Searchable
   belongs_to :species
+  delegate :name, to: :species, prefix: true
+
   has_many :images, dependent: :destroy
   has_many :events, dependent: :destroy
 
