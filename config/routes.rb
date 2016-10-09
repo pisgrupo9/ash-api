@@ -15,6 +15,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :users, only: [:update,:show]
       get 'animals/search', to: 'animals#search'
+      get 'animals/export_search', to: 'animals#export_search'
       resources :animals, except: [:new, :edit] do
         resources :images , only: [:create,:destroy,:show, :index]
         get 'events/search', to: 'events#search'
