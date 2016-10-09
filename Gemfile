@@ -37,6 +37,9 @@ gem 'delayed_job_active_record', '~> 4.0.3'
 
 gem 'pg_search', '~> 1.0', '>= 1.0.6'
 
+# upload excel to amazon
+gem 'aws-sdk', '~> 2.6.6'
+
 group :development, :test do
   gem 'factory_girl_rails', '~> 4.5.0'
   gem 'faker', '~> 1.6.5'
@@ -54,7 +57,6 @@ group :development do
   gem 'pry-rails', '~> 0.3.4'
   gem 'quiet_assets', '~> 1.1.0'
   gem 'letter_opener', '~> 1.4.1'
-  gem 'aws-sdk', '~> 2.6.6'
 end
 
 group :test do
