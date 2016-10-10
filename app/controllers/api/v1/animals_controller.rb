@@ -1,7 +1,7 @@
 module Api
   module V1
     class AnimalsController < Api::V1::ApiController
-      before_action :set_animal, only: [:show, :update, :destroy]
+      before_action :set_animal, only: [:show, :update, :destroy, :export_pdf]
       respond_to :json
 
       def index
@@ -10,6 +10,19 @@ module Api
       end
 
       def show
+        respond_to do |format|
+          format.json { render 'show.json.jbuilder' }
+        end
+      end
+
+      def export_pdf
+        pdf = PdfCreator.new(@animal)
+        pdf_name = "perfil_#{@animal.name}_#{Time.now.to_i}".delete(' ')
+        pdf.render_file pdf_name
+        pdf_final = pdf.file_upload pdf.directory, pdf_name
+        @path_to_pdf = pdf_final.public_url
+        File.delete pdf_name
+        render 'pdf_url.json.jbuilder'
       end
 
       def create

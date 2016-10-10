@@ -16,6 +16,7 @@ Rails.application.routes.draw do
       resources :users, only: [:update,:show]
       get 'animals/search', to: 'animals#search'
       get 'animals/export_search', to: 'animals#export_search'
+      get 'animals/:id/export_pdf', to: 'animals#export_pdf', :defaults => { :format => 'json' }
       resources :animals, except: [:new, :edit] do
         resources :images , only: [:create,:destroy,:show, :index]
         get 'events/search', to: 'events#search'

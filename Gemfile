@@ -21,7 +21,8 @@ gem 'carrierwave-base64', '~> 2.3.1'
 gem 'rmagick', '~>2.16.0'
 gem 'fog-aws', '~> 0.10.0'
 gem 'kaminari', '~> 0.17.0'
-
+gem 'prawn', '~> 2.0.2'
+gem 'prawn-table', '~> 0.2.2'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.0'
 
