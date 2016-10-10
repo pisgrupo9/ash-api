@@ -59,7 +59,7 @@ class PdfCreator < Prawn::Document
       set_values
       table([
         ['Número de Chip:', @animal.chip_num || '-'], ['Nombre:', @animal.name.capitalize],
-        ['Especie:', @animal.species_name.capitalize], ['Sexo:', @animal.sex_to_s], ['Raza:', @race.capitalize],
+        ['Especie:', @animal.species_name.capitalize], ['Sexo:', @animal.sex_to_s], ['Raza:', race.capitalize],
         ['Peso:', @animal.weight || '-'], ['Nacimiento:', @animal.birthdate], ['Ingreso:', @animal.admission_date],
         ['Muerte:', @animal.death_date || '-'], ['Vacunado:', @vacunado], ['Castrado:', @castrado]], position: 300) do |table|
         table.cells.padding = 6
@@ -86,7 +86,7 @@ class PdfCreator < Prawn::Document
     end
 
     def set_eventos
-      [%w(Fecha, Título, Descripción)] +
+      [%w(Fecha Título Descripción)] +
         @animal.events.map do |evento|
           [evento.date, evento.name.capitalize, evento.description]
         end
