@@ -19,8 +19,7 @@ module Api
         pdf = PdfCreator.new(@animal)
         pdf_name = "perfil_#{@animal.name}_#{Time.now.to_i}".delete(' ')
         pdf.render_file pdf_name
-        pdf_final = file_upload directory, pdf_name
-        # send_data pdf.render, filename: pdf_name, type: 'application/pdf', disposition: 'inline'
+        pdf_final = pdf.file_upload pdf.directory, pdf_name
         @path_to_pdf = pdf_final.public_url
         File.delete pdf_name
         render 'pdf_url.json.jbuilder'
@@ -82,26 +81,6 @@ module Api
 
       def url_set(obj)
         @url = obj.public_url
-      end
-
-      def file_upload(directory, pdf_name)
-        file = directory.files.create(
-          key:    "uploads/pdfs/#{pdf_name}.pdf",
-          body:   File.open(pdf_name),
-          public: true
-        )
-        file.save
-        file
-      end
-
-      def directory
-        storage = Fog::Storage.new(
-          provider:              'AWS',
-          aws_access_key_id:     ENV['AWS_ACCESS_KEY_ID'],
-          aws_secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'],
-          region: 'sa-east-1'
-        )
-        storage.directories.get('ash-images')
       end
 
       def set_animal
