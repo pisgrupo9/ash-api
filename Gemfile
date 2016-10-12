@@ -40,6 +40,8 @@ gem 'pg_search', '~> 1.0', '>= 1.0.6'
 
 # upload excel to amazon
 gem 'aws-sdk', '~> 2.6.6'
+gem 'axlsx_rails', '~> 0.5.0'
+gem 'axlsx', '~> 2.0.1'
 
 group :development, :test do
   gem 'factory_girl_rails', '~> 4.5.0'

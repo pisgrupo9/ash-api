@@ -64,8 +64,8 @@ module Api
 
       def respond_xls
         @animals = Animal.search(animals_search_params)
-        file = Tempfile.new(['busqueda', '.xls'])
-        file.write(render_to_string 'search.xls.erb')
+        file = Tempfile.new(['busqueda', '.xlsx'])
+        file.write(render_to_string 'search.xlsx.axlsx')
         file.rewind
         file.close
         upload_excel(file)
