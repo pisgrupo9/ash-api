@@ -23,6 +23,7 @@ Rails.application.routes.draw do
         resources :events, only: [:create,:destroy,:show,:index]
       end
       resources :species, only: [:index]
+      resources :adopters, except: [:new, :edit]
     end
   end
 end

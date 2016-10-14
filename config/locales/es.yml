@@ -10,6 +10,9 @@ es:
       user:
         one: Usuario
         other: Usuarios
+      adopter:
+        one: Adoptante
+        other: Adoptantes
     attributes:
       admin_user:
         current_sign_in_at: Inicio de sesión actual
@@ -22,13 +25,22 @@ es:
         last_name: Apellido
         phone: Teléfono
         account_active: Cuenta Activa
-        permissions: 
+        permissions:
           one: Permiso
           other: Permisos
           default_user: Por defecto
           animals_edit: Editar animales
           adopters_edit: Editar adoptantes
           super_user: Super usuario
+        created_at: Creado
+        updated_at: Actualizado
+      adopter:
+        first_name: Nombre
+        last_name: Apellido
+        phone: Teléfono
+        blacklisted: En lista negra
+        home_address: Dirección
+        house_description: Descripción
         created_at: Creado
         updated_at: Actualizado
     enums:
