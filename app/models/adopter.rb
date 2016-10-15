@@ -16,6 +16,7 @@
 #
 
 class Adopter < ActiveRecord::Base
+  include SearchableAdopters
   validates :ci, uniqueness: true
   validates :first_name, :last_name, :ci, :home_address, presence: true
   validates :first_name, :last_name, length: { maximum: 30 }
