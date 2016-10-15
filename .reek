@@ -17,12 +17,12 @@ DataClump:
   min_clump_size: 2
 DuplicateMethodCall:
   enabled: true
-  exclude: [PdfCreator#eventos_title, PdfCreator#set_data, PdfCreator#set_tabla_eventos, PdfCreator#set_values]
+  exclude: [PdfCreator#eventos_title, PdfCreator#set_data, PdfCreator#set_tabla_eventos, PdfCreator#set_values, PdfCreator#set_title]
   max_calls: 1
   allow_calls: []
 FeatureEnvy:
   enabled: true
-  exclude: [SimpleTokenAuthentication#find_record_from_identifier, ApplicationController#cors_preflight_check, ApplicationController#cors_set_access_control_headers, DeviseCreateUsers, DeviseCreateAdminUsers, PdfCreator#set_eventos, PdfCreator#directory, PdfCreator#file_upload]
+  exclude: [SimpleTokenAuthentication#find_record_from_identifier, ApplicationController#cors_preflight_check, ApplicationController#cors_set_access_control_headers, DeviseCreateUsers, DeviseCreateAdminUsers, PdfCreator#set_eventos, PdfCreator#directory, PdfCreator#file_upload, PdfCreator#set_tabla_eventos]
 IrresponsibleModule:
   enabled: false
   exclude: []
