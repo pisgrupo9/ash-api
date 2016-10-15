@@ -1,6 +1,7 @@
 module Api
   module V1
     class AnimalsController < Api::V1::ApiController
+      include RespondXlsx
       before_action :set_animal, only: [:show, :update, :destroy, :export_pdf]
       respond_to :json
 
@@ -56,36 +57,12 @@ module Api
       end
 
       def export_search
-        respond_xls
+        @animals = Animal.search(animals_search_params)
+        respond_excel('busqueda', 'excel', '/api/v1/animals')
         render 'excel_url.json.jbuilder'
       end
 
       private
-
-      def respond_xls
-        @animals = Animal.search(animals_search_params)
-        file = Tempfile.new(['busqueda', '.xlsx'])
-        file.write(render_to_string 'search.xlsx.axlsx')
-        file.rewind
-        file.close
-        upload_excel(file)
-      end
-
-      def upload_excel(file)
-        path = file.path
-        name = File.basename(path)
-        obj = S3_BUCKET.object("uploads/excel/#{name}")
-        obj.upload_file(path)
-        url_set(obj)
-      end
-
-      def url_set(obj)
-        @url = obj.public_url
-      end
-
-      def set_animal
-        @animal = Animal.find(params[:id])
-      end
 
       def animal_params
         params.require(:animal).permit(:chip_num, :name, :race, :sex, :vaccines, :castrated, :admission_date,

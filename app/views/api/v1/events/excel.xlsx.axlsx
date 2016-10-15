@@ -1,0 +1,10 @@
+wb = xlsx_package.workbook
+wb.styles do |s|
+  heading = s.add_style alignment: {horizontal: :center}, b: true
+  wb.add_worksheet(name: "Eventos") do |sheet|
+    sheet.add_row ["Nombre", "Descripción", "Fecha"], style: heading
+    @events.each do |event|
+      sheet.add_row [event.name, event.description, event.date]
+    end
+  end
+end
