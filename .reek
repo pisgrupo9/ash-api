@@ -17,7 +17,7 @@ DataClump:
   min_clump_size: 2
 DuplicateMethodCall:
   enabled: true
-  exclude: [PdfCreator#eventos_title, PdfCreator#set_data, PdfCreator#set_tabla_eventos, PdfCreator#set_values]
+  exclude: [PdfCreator#eventos_title, PdfCreator#set_data, PdfCreator#set_tabla_eventos, PdfCreator#set_values, PdfCreator#set_title]
   max_calls: 1
   allow_calls: []
 FeatureEnvy:
