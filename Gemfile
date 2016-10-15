@@ -38,6 +38,9 @@ gem 'delayed_job_active_record', '~> 4.0.3'
 
 gem 'pg_search', '~> 1.0', '>= 1.0.6'
 
+# environment variables
+gem 'figaro', '~> 1.1.1'
+
 # upload excel to amazon
 gem 'aws-sdk', '~> 2.6.6'
 gem 'axlsx_rails', '~> 0.5.0'
