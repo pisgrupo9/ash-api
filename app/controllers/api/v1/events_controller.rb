@@ -1,6 +1,7 @@
 module Api
   module V1
     class EventsController < Api::V1::ApiController
+      include RespondXlsx
       before_action :set_animal
       def index
         @events = @animal.events.page(params[:page]).per(params[:row])
@@ -31,6 +32,12 @@ module Api
       def search
         @events = @animal.events.search(search_params).page(params[:page]).per(params[:row])
         render partial: 'index.json.jbuilder'
+      end
+
+      def export_events
+        @events = @animal.events
+        respond_excel("eventos_#{@animal.name}", 'excel_events', '/api/v1/events')
+        render json: { url: @url }
       end
 
       private
