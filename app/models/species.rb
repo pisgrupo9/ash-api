@@ -12,4 +12,8 @@ class Species < ActiveRecord::Base
   has_many :animals
 
   validates :name, presence: true, allow_nil: false, uniqueness: true
+
+  def not_deleteable?
+    [1, 2, 3].include? id
+  end
 end
