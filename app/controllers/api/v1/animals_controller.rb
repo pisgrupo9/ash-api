@@ -64,6 +64,10 @@ module Api
 
       private
 
+      def set_animal
+        @animal = Animal.find(params[:id])
+      end
+
       def animal_params
         params.require(:animal).permit(:chip_num, :name, :race, :sex, :vaccines, :castrated, :admission_date,
                                        :birthdate, :death_date, :species_id, :weight, :profile_image)
