@@ -4,7 +4,10 @@ module SearchableAdopters
     include PgSearch
     default_scope { order(created_at: :desc) }
 
-    pg_search_scope :by_name, against: [:first_name, :last_name], using: { tsearch: { prefix: true } }
+    scope :by_name, lambda {|name|
+      text = '%' + I18n.transliterate(name) + '%'
+      where('unaccent(first_name) ilike ? or unaccent(last_name) ilike ?', text, text)
+    }
     pg_search_scope :by_blacklisted, against: :blacklisted
 
     scope :search_by_name, lambda {|name|
