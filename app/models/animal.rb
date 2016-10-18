@@ -33,7 +33,7 @@ class Animal < ActiveRecord::Base
 
   validates :species, presence: true
   validates :chip_num, uniqueness: true, allow_nil: true
-  validates :name, presence: true
+  validates :name, presence: true, length: { maximum: 30 }
   validates :name, uniqueness: true, if: :chip_num_nil?
   validates_presence_of :vaccines, if: 'vaccines.nil?'
   validates_presence_of :castrated, if: 'castrated.nil?'
@@ -42,6 +42,7 @@ class Animal < ActiveRecord::Base
   validate :correct_death_date, unless: 'death_date.nil?'
   validate :correct_birthdate
   validate :correct_admission_date
+  validates :weight, numericality: { greater_than: 0 }
 
   enum sex:  [:male, :female]
 
