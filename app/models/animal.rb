@@ -34,7 +34,7 @@ class Animal < ActiveRecord::Base
   validates :species, presence: true
   validates :chip_num, uniqueness: true, allow_nil: true
   validates :name, presence: true
-  validates :name, uniqueness: true, if: :chip_num_nil?
+  validates :name, uniqueness: { scope: :admission_date }, if: :chip_num_nil?
   validates_presence_of :vaccines, if: 'vaccines.nil?'
   validates_presence_of :castrated, if: 'castrated.nil?'
   validates :admission_date, presence: true
