@@ -35,12 +35,19 @@ module Api
       end
 
       def export_events
+        create_excel_report
         @events = @animal.events
-        respond_excel("eventos_#{@animal.name}", 'excel_events', '/api/v1/events')
-        render json: { url: @url }
+        ExcelUploader.new.delay.respond_excel("eventos_#{@animal.name}", 'excel_events', '/api/v1/events', @events, 'events', @report.id)
+        render json: {id_report: @report.id}, status: :ok
       end
 
       private
+
+      def create_excel_report
+        @user = current_user
+        @report = @user.reports.build(name: "Busqueda_#{Time.now.strftime "%Y%m%d%H%M%S"}", type_file:"excel", state: "processing")
+        @report.save
+      end
 
       def set_animal
         @animal = Animal.find(params[:animal_id])

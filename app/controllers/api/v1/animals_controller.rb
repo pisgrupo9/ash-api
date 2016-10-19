@@ -63,15 +63,22 @@ module Api
       end
 
       def export_search
+        create_excel_report
         @animals = Animal.search(animals_search_params)
-        respond_excel('busqueda', 'excel', '/api/v1/animals')
-        render 'excel_url.json.jbuilder'
+        ExcelUploader.new.delay.respond_excel('busqueda', 'excel', '/api/v1/animals',@animals,'animals',@report.id)
+        render json: {id_report: @report.id}, status: :ok
       end
 
       private
 
       def set_animal
         @animal = Animal.find(params[:id])
+      end
+
+      def create_excel_report
+        @user = current_user
+        @report = @user.reports.build(name: "Busqueda_#{Time.now.strftime "%Y%m%d%H%M%S"}", type_file:"excel", state: "processing")
+        @report.save
       end
 
       def adoptable_params

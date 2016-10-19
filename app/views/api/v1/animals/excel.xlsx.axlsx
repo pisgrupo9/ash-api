@@ -2,9 +2,9 @@ wb = xlsx_package.workbook
 wb.styles do |s|
   heading = s.add_style alignment: {horizontal: :center}, b: true
   wb.add_worksheet(name: "Animales") do |sheet|
-    sheet.add_row ["Nombre", "Número Chip", "Especie", "Sexo", "Peso", "Vacunado", "Castrado", "Fecha admisión", "Fecha nacimiento", "Fecha muerte"], style: heading
+    sheet.add_row ["Nombre", "Número Chip", "Especie", "Raza", "Sexo", "Peso", "Vacunado", "Castrado", "Fecha admisión", "Fecha nacimiento", "Fecha muerte"], style: heading
     @animals.each do |animal|
-      sheet.add_row [animal.name, animal.chip_num, animal.race, animal.sex_to_s, animal.weight, animal.vaccines_to_s, animal.castrated_to_s, animal.admission_date, animal.birthdate, animal.death_date]
+      sheet.add_row [animal.name, animal.chip_num, animal.species.name, animal.race, animal.sex_to_s, animal.weight, animal.vaccines_to_s, animal.castrated_to_s, animal.admission_date, animal.birthdate, animal.death_date]
     end
   end
 end

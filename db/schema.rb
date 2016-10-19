@@ -68,6 +68,22 @@ ActiveRecord::Schema.define(version: 20161019200419) do
 
   add_index "animals", ["species_id"], name: "index_animals_on_species_id", using: :btree
 
+  create_table "delayed_jobs", force: :cascade do |t|
+    t.integer  "priority",   default: 0, null: false
+    t.integer  "attempts",   default: 0, null: false
+    t.text     "handler",                null: false
+    t.text     "last_error"
+    t.datetime "run_at"
+    t.datetime "locked_at"
+    t.datetime "failed_at"
+    t.string   "locked_by"
+    t.string   "queue"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
+
   create_table "events", force: :cascade do |t|
     t.string  "name",        null: false
     t.string  "description", null: false
@@ -87,6 +103,18 @@ ActiveRecord::Schema.define(version: 20161019200419) do
 
   add_index "images", ["animal_id"], name: "index_images_on_animal_id", using: :btree
   add_index "images", ["event_id"], name: "index_images_on_event_id", using: :btree
+
+  create_table "reports", force: :cascade do |t|
+    t.string   "name"
+    t.string   "url"
+    t.integer  "type_file"
+    t.integer  "state"
+    t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "reports", ["user_id"], name: "index_reports_on_user_id", using: :btree
 
   create_table "species", force: :cascade do |t|
     t.string   "name"
@@ -118,4 +146,5 @@ ActiveRecord::Schema.define(version: 20161019200419) do
   add_foreign_key "events", "animals"
   add_foreign_key "images", "animals"
   add_foreign_key "images", "events"
+  add_foreign_key "reports", "users"
 end

@@ -25,6 +25,8 @@
 
 class User < ActiveRecord::Base
   include Authenticable
+  has_many :reports, dependent: :destroy
+  
   validates :first_name, :last_name, :encrypted_password, presence: true
   validates :first_name, :last_name, length: { maximum: 30 }
   validates :phone, presence: true, format: { with: /\A[0-9]{8}[0-9]?\z/ }
