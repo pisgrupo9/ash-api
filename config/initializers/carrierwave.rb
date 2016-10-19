@@ -10,7 +10,7 @@ CarrierWave.configure do |config|
       :aws_secret_access_key  => ENV['AWS_SECRET_ACCESS_KEY'],
       :region                 => ENV['REGION']
     }
-    config.fog_directory  = 'ash-images'
+    config.fog_directory  = ENV['FOG_DIRECTORY']
     config.fog_public     = false
     config.fog_attributes = {'Cache-Control'=>'max-age=315576000'}
   end

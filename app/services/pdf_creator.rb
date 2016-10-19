@@ -30,7 +30,7 @@ class PdfCreator < Prawn::Document
         aws_secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'],
         region: 'sa-east-1'
       )
-      storage.directories.get('ash-images')
+      storage.directories.get(ENV['FOG_DIRECTORY'])
     end
 
     def set_title
