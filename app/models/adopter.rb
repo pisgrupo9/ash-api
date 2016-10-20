@@ -21,4 +21,11 @@ class Adopter < ActiveRecord::Base
   validates :first_name, :last_name, :ci, :home_address, presence: true
   validates :first_name, :last_name, length: { maximum: 30 }
   validates :phone, presence: true, format: { with: /\A[0-9]{8}[0-9]?\z/ }
+  validate :correct_ci
+
+  private
+
+  def correct_ci
+    errors.add(:ci, 'La cédula de identidad no es válida.') unless ci =~ /\A[0-9]{7}[0-9]?\z/ && CiUY.validate(ci)
+  end
 end
