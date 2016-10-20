@@ -13,7 +13,9 @@ Rails.application.routes.draw do
 
   namespace :api, defaults: { format: :json }  do
     namespace :v1 do
-      resources :users, only: [:update,:show]
+       resources :users, only: [:update,:show] do
+        resources :reports, only:[:index]
+       end
       get 'animals/search', to: 'animals#search'
       get 'animals/export_search', to: 'animals#export_search'
       get 'animals/:id/export_pdf', to: 'animals#export_pdf', :defaults => { :format => 'json' }

@@ -17,13 +17,9 @@ module Api
       end
 
       def export_pdf
-        pdf = PdfCreator.new(@animal)
-        pdf_name = "perfil_#{@animal.name}_#{Time.now.to_i}".delete(' ')
-        pdf.render_file pdf_name
-        pdf_final = pdf.file_upload pdf.directory, pdf_name
-        @path_to_pdf = pdf_final.public_url
-        File.delete pdf_name
-        render 'pdf_url.json.jbuilder'
+        create_report('pdf')
+        PdfUploader.new.delay.respond_pdf(@animal, @report.id)
+        head status: :ok
       end
 
       def create
@@ -63,10 +59,12 @@ module Api
       end
 
       def export_search
-        create_excel_report
+        create_report('excel')
         @animals = Animal.search(animals_search_params)
-        ExcelUploader.new.delay.respond_excel('busqueda', 'excel', '/api/v1/animals',@animals,'animals',@report.id)
-        render json: {id_report: @report.id}, status: :ok
+        params_uploader = { file_name: 'busqueda', collection_name: '@animals',
+                            folder: 'excel', route: '/api/v1/animals', report_id: @report.id }
+        ExcelUploader.new.delay.respond_excel(params_uploader, @animals)
+        head status: :ok
       end
 
       private
@@ -75,9 +73,10 @@ module Api
         @animal = Animal.find(params[:id])
       end
 
-      def create_excel_report
+      def create_report(type_file)
         @user = current_user
-        @report = @user.reports.build(name: "Busqueda_#{Time.now.strftime "%Y%m%d%H%M%S"}", type_file:"excel", state: "processing")
+        @report = @user.reports.build(name: "Busqueda_#{Time.now.strftime '%Y%m%d%H%M%S'}",
+                                      type_file: type_file, state: 'processing')
         @report.save
       end
 
