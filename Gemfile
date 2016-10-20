@@ -46,6 +46,8 @@ gem 'aws-sdk', '~> 2.6.6'
 gem 'axlsx_rails', '~> 0.5.0'
 gem 'axlsx', '~> 2.0.1'
 
+gem 'ci_uy', '~> 0.0.7'
+
 group :development, :test do
   gem 'factory_girl_rails', '~> 4.5.0'
   gem 'faker', '~> 1.6.5'
