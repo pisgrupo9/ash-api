@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161012230942) do
+ActiveRecord::Schema.define(version: 20161019200419) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -53,8 +53,8 @@ ActiveRecord::Schema.define(version: 20161012230942) do
     t.string   "name",           null: false
     t.string   "race"
     t.integer  "sex",            null: false
-    t.boolean  "vaccines",       null: false
-    t.boolean  "castrated",      null: false
+    t.boolean  "vaccines"
+    t.boolean  "castrated"
     t.date     "admission_date", null: false
     t.date     "birthdate",      null: false
     t.date     "death_date"
@@ -63,6 +63,7 @@ ActiveRecord::Schema.define(version: 20161012230942) do
     t.datetime "updated_at",     null: false
     t.string   "profile_image"
     t.integer  "weight"
+    t.string   "type"
   end
 
   add_index "animals", ["species_id"], name: "index_animals_on_species_id", using: :btree
@@ -91,6 +92,7 @@ ActiveRecord::Schema.define(version: 20161012230942) do
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean  "adoptable",  null: false
   end
 
   create_table "users", force: :cascade do |t|

@@ -28,17 +28,23 @@ module Api
 
       def create
         authorize Animal
-        animal = Animal.new(animal_params)
-        if animal.save
-          render json: animal.as_json(only: [:id]), status: :created
+        @species = Species.find(animal_params[:species_id])
+        new_animal
+        if @animal.save
+          render json: @animal.as_json(only: [:id]), status: :created
         else
-          render json: { error: animal.errors.as_json }, status: :unprocessable_entity
+          render json: { error: @animal.errors.as_json }, status: :unprocessable_entity
         end
+      end
+
+      def new_animal
+        @species.adoptable? ? @animal = Adoptable.new(adoptable_params) : @animal = Animal.new(animal_params)
       end
 
       def update
         authorize Animal
-        if @animal.update(animal_params)
+        species.adoptable? ? update_params = adoptable_params : update_params = animal_params
+        if @animal.update(update_params)
           render json: @animal.as_json(only: [:id]), status: :ok
         else
           render json: { error: @animal.errors.as_json }, status: :bad_request
@@ -68,13 +74,18 @@ module Api
         @animal = Animal.find(params[:id])
       end
 
-      def animal_params
+      def adoptable_params
         params.require(:animal).permit(:chip_num, :name, :race, :sex, :vaccines, :castrated, :admission_date,
                                        :birthdate, :death_date, :species_id, :weight, :profile_image)
       end
 
+      def animal_params
+        params.require(:animal).permit(:chip_num, :name, :race, :sex, :admission_date,
+                                       :birthdate, :death_date, :species_id, :weight, :profile_image)
+      end
+
       def animals_search_params
-        params.permit(:chip_num, :name, :race, :sex, :vaccines, :castrated, :admission_date, :species_id, :weight)
+        params.permit(:chip_num, :name, :race, :sex, :vaccines, :castrated, :admission_date, :species_id, :weight, :type)
       end
     end
   end

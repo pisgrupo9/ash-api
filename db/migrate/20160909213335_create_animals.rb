@@ -5,8 +5,8 @@ class CreateAnimals < ActiveRecord::Migration
       t.string :name, null: false
       t.string :race
       t.integer :sex,  null: false
-      t.boolean :vaccines,  null: false
-      t.boolean :castrated,  null: false
+      t.boolean :vaccines
+      t.boolean :castrated
       t.date :admission_date,  null: false
       t.date :birthdate,  null: false
       t.date :death_date
