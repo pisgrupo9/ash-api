@@ -7,8 +7,8 @@
 #  name           :string           not null
 #  race           :string
 #  sex            :integer          not null
-#  vaccines       :boolean          not null
-#  castrated      :boolean          not null
+#  vaccines       :boolean
+#  castrated      :boolean
 #  admission_date :date             not null
 #  birthdate      :date             not null
 #  death_date     :date
@@ -17,6 +17,7 @@
 #  updated_at     :datetime         not null
 #  profile_image  :string
 #  weight         :integer
+#  type           :string
 #
 # Indexes
 #
@@ -35,8 +36,6 @@ class Animal < ActiveRecord::Base
   validates :chip_num, uniqueness: true, allow_nil: true
   validates :name, presence: true, length: { maximum: 30 }
   validates :name, uniqueness: true, if: :chip_num_nil?
-  validates_presence_of :vaccines, if: 'vaccines.nil?'
-  validates_presence_of :castrated, if: 'castrated.nil?'
   validates :admission_date, presence: true
   validates :birthdate, presence: true
   validate :correct_death_date, unless: 'death_date.nil?'

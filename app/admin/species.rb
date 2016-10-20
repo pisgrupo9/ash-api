@@ -1,10 +1,11 @@
 ActiveAdmin.register Species do
-  permit_params :name
+  permit_params :name, :adoptable
   actions :all, except: [:destroy]
   member_action :remove_specie, method: :post
   form do |f|
     f.inputs 'Details' do
       f.input :name
+      f.input :adoptable
     end
     f.actions
   end
@@ -12,6 +13,7 @@ ActiveAdmin.register Species do
     selectable_column
     id_column
     column :name
+    column :adoptable
     actions defaults: true do |specie|
       link_to(
         'Eliminar',
@@ -26,6 +28,7 @@ ActiveAdmin.register Species do
     attributes_table do
       row :id, sortable: true
       row :name
+      row :adoptable
     end
   end
 

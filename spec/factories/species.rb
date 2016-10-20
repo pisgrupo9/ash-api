@@ -6,6 +6,8 @@
 #  name       :string
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  adoptable  :boolean          not null
+#
 
 FactoryGirl.define do
   factory :species, class: 'Species' do
