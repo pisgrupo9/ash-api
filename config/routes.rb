@@ -26,6 +26,7 @@ Rails.application.routes.draw do
       resources :species, only: [:index]
       get 'adopters/search', to: 'adopters#search'
       resources :adopters, except: [:new, :edit]
+      resources :adoptions, only: [:create, :show, :destroy]
     end
   end
 end

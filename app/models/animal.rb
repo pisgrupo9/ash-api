@@ -18,6 +18,7 @@
 #  profile_image  :string
 #  weight         :integer
 #  type           :string
+#  adopted        :boolean
 #
 # Indexes
 #
@@ -27,6 +28,8 @@
 class Animal < ActiveRecord::Base
   include Searchable
   belongs_to :species
+  has_one :adoption
+  has_one :adopter, through: :adoption
   delegate :name, to: :species, prefix: true
 
   has_many :images, dependent: :destroy
@@ -60,6 +63,10 @@ class Animal < ActiveRecord::Base
 
   def castrated_to_s
     castrated ? 'Si' : 'No'
+  end
+
+  def adoptable?
+    type == 'Adoptable'
   end
 
   private

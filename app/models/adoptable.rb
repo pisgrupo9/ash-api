@@ -18,6 +18,7 @@
 #  profile_image  :string
 #  weight         :integer
 #  type           :string
+#  adopted        :boolean
 #
 # Indexes
 #
@@ -25,8 +26,14 @@
 #
 
 class Adoptable < Animal
-  belongs_to :adopter
-
   validates_presence_of :vaccines, if: 'vaccines.nil?'
   validates_presence_of :castrated, if: 'castrated.nil?'
+
+  before_create :set_adopted
+
+  private
+
+  def set_adopted
+    self.adopted = false
+  end
 end

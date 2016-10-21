@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161019200419) do
+ActiveRecord::Schema.define(version: 20161020234140) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,6 +48,17 @@ ActiveRecord::Schema.define(version: 20161019200419) do
     t.datetime "updated_at",                        null: false
   end
 
+  create_table "adoptions", force: :cascade do |t|
+    t.integer  "animal_id",  null: false
+    t.integer  "adopter_id", null: false
+    t.date     "date",       null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "adoptions", ["adopter_id"], name: "index_adoptions_on_adopter_id", using: :btree
+  add_index "adoptions", ["animal_id"], name: "index_adoptions_on_animal_id", unique: true, using: :btree
+
   create_table "animals", force: :cascade do |t|
     t.string   "chip_num"
     t.string   "name",           null: false
@@ -64,6 +75,7 @@ ActiveRecord::Schema.define(version: 20161019200419) do
     t.string   "profile_image"
     t.integer  "weight"
     t.string   "type"
+    t.boolean  "adopted"
   end
 
   add_index "animals", ["species_id"], name: "index_animals_on_species_id", using: :btree
@@ -114,6 +126,8 @@ ActiveRecord::Schema.define(version: 20161019200419) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
+  add_foreign_key "adoptions", "adopters"
+  add_foreign_key "adoptions", "animals"
   add_foreign_key "animals", "species"
   add_foreign_key "events", "animals"
   add_foreign_key "images", "animals"
