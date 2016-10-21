@@ -22,7 +22,7 @@ DuplicateMethodCall:
   allow_calls: []
 FeatureEnvy:
   enabled: true
-  exclude: [SimpleTokenAuthentication#find_record_from_identifier, ApplicationController#cors_preflight_check, ApplicationController#cors_set_access_control_headers, DeviseCreateUsers, DeviseCreateAdminUsers, PdfCreator#set_eventos, PdfCreator#directory, PdfCreator#file_upload, PdfCreator#set_tabla_eventos, RespondXlsx#respond_excel]
+  exclude: [SimpleTokenAuthentication#find_record_from_identifier, ApplicationController#cors_preflight_check, ApplicationController#cors_set_access_control_headers, DeviseCreateUsers, DeviseCreateAdminUsers, PdfCreator#set_eventos, PdfCreator#directory, PdfCreator#file_upload, PdfCreator#set_tabla_eventos, RespondXlsx#respond_excel,PdfUploader#respond_pdf,Report#update_list]
 IrresponsibleModule:
   enabled: false
   exclude: []

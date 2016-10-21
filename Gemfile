@@ -28,6 +28,10 @@ gem 'jbuilder', '~> 2.0'
 
 gem 'uglifier', '~> 2.7.2'
 
+gem 'delayed_job', '~> 4.0.6'
+
+gem 'daemons', '~> 1.2.4'
+
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0', group: :doc
 
