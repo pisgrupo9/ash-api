@@ -18,6 +18,7 @@
 #  profile_image  :string
 #  weight         :integer
 #  type           :string
+#  adopted        :boolean
 #
 # Indexes
 #
