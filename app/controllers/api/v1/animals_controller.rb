@@ -33,10 +33,6 @@ module Api
         end
       end
 
-      def new_animal
-        @species.adoptable? ? @animal = Adoptable.new(adoptable_params) : @animal = Animal.new(animal_params)
-      end
-
       def update
         authorize Animal
         species.adoptable? ? update_params = adoptable_params : update_params = animal_params
@@ -71,6 +67,10 @@ module Api
 
       def set_animal
         @animal = Animal.find(params[:id])
+      end
+
+      def new_animal
+        @species.adoptable? ? @animal = Adoptable.new(adoptable_params) : @animal = Animal.new(animal_params)
       end
 
       def create_report(type_file)

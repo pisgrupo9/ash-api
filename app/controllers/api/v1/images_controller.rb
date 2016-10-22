@@ -12,7 +12,7 @@ module Api
       end
 
       def create
-        authorize @animal
+        authorize Animal
         image = Image.new(file: image_params[:file], animal_id: params[:animal_id], event_id: @event.try(:id))
         if image.save
           render json: {}, status: :created
@@ -22,7 +22,7 @@ module Api
       end
 
       def destroy
-        authorize @animal
+        authorize Animal
         @image = @animal.images.find(params[:id])
         @image.destroy
         head :no_content
