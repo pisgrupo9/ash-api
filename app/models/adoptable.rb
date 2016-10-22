@@ -29,11 +29,11 @@ class Adoptable < Animal
   validates_presence_of :vaccines, if: 'vaccines.nil?'
   validates_presence_of :castrated, if: 'castrated.nil?'
 
-  before_create :set_adopted
+  after_create :set_adopted
 
   private
 
   def set_adopted
-    self.adopted = false
+    update(adopted: false)
   end
 end

@@ -7,3 +7,7 @@ json.phone adopter.phone
 json.house_description adopter.house_description
 json.blacklisted adopter.blacklisted
 json.home_address adopter.home_address
+json.adoptions adopter.adoptions do |adoption|
+  json.animal_id adoption.animal_id
+  json.adoption_id adoption.id
+end

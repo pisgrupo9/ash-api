@@ -44,7 +44,8 @@ class Animal < ActiveRecord::Base
   validate :correct_death_date, unless: 'death_date.nil?'
   validate :correct_birthdate
   validate :correct_admission_date
-  validates :weight, numericality: { greater_than: 0 }
+  validates :weight, numericality: { greater_than: 0 }, allow_nil: true
+  validates :race, presence: true, if: :species_race_required?
 
   enum sex:  [:male, :female]
 
@@ -73,6 +74,10 @@ class Animal < ActiveRecord::Base
 
   def chip_num_nil?
     chip_num.nil?
+  end
+
+  def species_race_required?
+    [1, 2, 3].include? species_id
   end
 
   def correct_death_date
