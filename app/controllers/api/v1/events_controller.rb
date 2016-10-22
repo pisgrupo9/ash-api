@@ -13,7 +13,7 @@ module Api
       end
 
       def create
-        authorize @animal
+        authorize Animal
         event = @animal.events.build(event_params)
         if event.save
           render json: event.as_json(only: [:id]), status: :created
@@ -23,7 +23,7 @@ module Api
       end
 
       def destroy
-        authorize @animal
+        authorize Animal
         @event = @animal.events.find(params[:id])
         @event.destroy
         head :no_content
