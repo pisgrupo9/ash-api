@@ -40,7 +40,7 @@ module Api
         params_uploader = { file_name: "eventos_#{@animal.name}", collection_name: '@events',
                             folder: 'excel_events', route: '/api/v1/events', report_id: @report.id }
         ExcelUploader.new.delay.respond_excel(params_uploader, @events)
-        head status: :ok
+        head :no_content
       end
 
       private

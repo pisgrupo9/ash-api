@@ -11,7 +11,7 @@ json.birthdate @animal.birthdate
 json.death_date @animal.death_date
 json.species @animal.species.name
 json.species_id @animal.species_id
-json.type @animal.type
+json.type @animal.type_to_s
 json.adopted @animal.adopted if @animal.adoptable?
 json.adopter_id @animal.adopter.id if @animal.adopter
 json.adoption_id @animal.adoption.id if @animal.adoption
