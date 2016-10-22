@@ -70,6 +70,14 @@ class Animal < ActiveRecord::Base
     type == 'Adoptable'
   end
 
+  def type_to_s
+    if type == 'Adoptable'
+      type
+    else
+      'No_Adoptable'
+    end
+  end
+
   private
 
   def chip_num_nil?

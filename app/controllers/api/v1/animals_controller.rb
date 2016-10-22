@@ -19,7 +19,7 @@ module Api
       def export_pdf
         create_report('pdf')
         PdfUploader.new.delay.respond_pdf(@animal, @report.id)
-        head status: :ok
+        head :no_content
       end
 
       def create
@@ -60,7 +60,7 @@ module Api
         params_uploader = { file_name: 'busqueda', collection_name: '@animals',
                             folder: 'excel', route: '/api/v1/animals', report_id: @report.id }
         ExcelUploader.new.delay.respond_excel(params_uploader, @animals)
-        head status: :ok
+        head :no_content
       end
 
       private
