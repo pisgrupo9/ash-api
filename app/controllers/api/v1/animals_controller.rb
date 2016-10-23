@@ -92,7 +92,7 @@ module Api
 
       def animals_search_params
         params.permit(:chip_num, :name, :race, :sex, :vaccines, :castrated, :admission_date_from, :admission_date_to,
-                      :species_id, :weight, :type)
+                      :species_id, :weight, :type, :adopted)
       end
     end
   end

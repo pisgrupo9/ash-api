@@ -13,6 +13,7 @@ module Searchable
     pg_search_scope :by_vaccines, against: :vaccines
     pg_search_scope :by_castrated, against: :castrated
     pg_search_scope :by_type, against: :type
+    pg_search_scope :by_adopted, against: :adopted
 
     scope :search_by_name, lambda {|name|
       by_name(name) if name.present?
@@ -51,11 +52,14 @@ module Searchable
         where(type: nil)
       end
     }
+    scope :search_by_adopted, lambda {|adopted|
+      by_adopted(adopted) if adopted.present?
+    }
 
     def self.search(params)
-      search_by_type(params[:type]).search_by_name(params[:name]).search_by_chip_num(params[:chip_num])
-        .search_by_race(params[:race]).search_by_sex(params[:sex]).search_by_vaccines(params[:vaccines])
-        .search_by_weight(params[:weight]).search_by_species_id(params[:species_id])
+      search_by_type(params[:type]).search_by_adopted(params[:adopted]).search_by_name(params[:name])
+        .search_by_chip_num(params[:chip_num]).search_by_race(params[:race]).search_by_sex(params[:sex])
+        .search_by_vaccines(params[:vaccines]).search_by_weight(params[:weight]).search_by_species_id(params[:species_id])
         .search_by_castrated(params[:castrated]).search_by_admission_date_from(params[:admission_date_from])
         .search_by_admission_date_to(params[:admission_date_to])
     end
