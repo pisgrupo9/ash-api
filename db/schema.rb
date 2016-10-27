@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161020234140) do
+ActiveRecord::Schema.define(version: 20161027002739) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -79,6 +79,17 @@ ActiveRecord::Schema.define(version: 20161020234140) do
   end
 
   add_index "animals", ["species_id"], name: "index_animals_on_species_id", using: :btree
+
+  create_table "comments", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "adopter_id"
+    t.string   "text",       null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "comments", ["adopter_id"], name: "index_comments_on_adopter_id", using: :btree
+  add_index "comments", ["user_id"], name: "index_comments_on_user_id", using: :btree
 
   create_table "delayed_jobs", force: :cascade do |t|
     t.integer  "priority",   default: 0, null: false
@@ -157,6 +168,8 @@ ActiveRecord::Schema.define(version: 20161020234140) do
   add_foreign_key "adoptions", "adopters"
   add_foreign_key "adoptions", "animals"
   add_foreign_key "animals", "species"
+  add_foreign_key "comments", "adopters"
+  add_foreign_key "comments", "users"
   add_foreign_key "events", "animals"
   add_foreign_key "images", "animals"
   add_foreign_key "images", "events"
