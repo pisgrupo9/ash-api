@@ -35,7 +35,8 @@ module Api
 
       def update
         authorize Animal
-        species.adoptable? ? update_params = adoptable_params : update_params = animal_params
+        species = @animal.species
+        species.adoptable ? update_params = adoptable_params : update_params = animal_params
         if @animal.update(update_params)
           render json: @animal.as_json(only: [:id]), status: :ok
         else
@@ -70,7 +71,7 @@ module Api
       end
 
       def new_animal
-        @species.adoptable? ? @animal = Adoptable.new(adoptable_params) : @animal = Animal.new(animal_params)
+        @species.adoptable ? @animal = Adoptable.new(adoptable_params) : @animal = Animal.new(animal_params)
       end
 
       def create_report(type_file)
