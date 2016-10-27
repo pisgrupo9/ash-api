@@ -22,7 +22,7 @@ FactoryGirl.define do
     last_name  { Faker::Name.last_name }
     home_address  { Faker::Address.street_address}
     blacklisted { Faker::Boolean.boolean }
-    phone {Faker::Number.number(9)}
-    house_description {Faker::Lorem.sentence}
+    phone { Faker::Number.number(9) }
+    house_description { Faker::Lorem.sentence }
   end
 end
