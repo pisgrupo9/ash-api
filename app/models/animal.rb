@@ -59,11 +59,19 @@ class Animal < ActiveRecord::Base
   end
 
   def vaccines_to_s
-    vaccines ? 'Si' : 'No'
+    if vaccines
+      'Si'
+    else
+      to_s
+    end
   end
 
   def castrated_to_s
-    castrated ? 'Si' : 'No'
+    if castrated
+      'Si'
+    else
+      to_s
+    end
   end
 
   def adoptable?
@@ -71,14 +79,26 @@ class Animal < ActiveRecord::Base
   end
 
   def type_to_s
-    if type == 'Adoptable'
-      type
+    adoptable? ? type : 'No_Adoptable'
+  end
+
+  def adopted_to_s
+    if adopted
+      'Si'
     else
-      'No_Adoptable'
+      to_s
     end
   end
 
   private
+
+  def to_s
+    if adoptable?
+      'No'
+    else
+      'N/C'
+    end
+  end
 
   def chip_num_nil?
     chip_num.nil?
