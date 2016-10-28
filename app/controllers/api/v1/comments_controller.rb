@@ -4,7 +4,7 @@ module Api
       before_action :set_adopter
 
       def index
-        @comments = @adopter.comments
+        @comments = @adopter.comments.page(params[:page]).per(params[:row])
       end
 
       def show
