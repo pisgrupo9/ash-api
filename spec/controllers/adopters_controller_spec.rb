@@ -122,7 +122,7 @@ describe Api::V1::AdoptersController do
     end
   end
 
-  describe "PUT #update" do
+  describe 'PUT #update' do
     context 'exitoso' do
       
       let(:params1) { {first_name: Faker::Name.first_name} }
@@ -318,7 +318,177 @@ describe Api::V1::AdoptersController do
     end
   end
 
-  describe "DELETE #destroy" do
+  describe 'GET #index' do
+    context 'se listan los adoptantes del sistema' do
+      
+      let!(:adopter4) { create(:adopter) }
+      let!(:adopter5) { create(:adopter) }
+
+      context 'con un usuario con permisos para editar adoptantes' do
+        before(:each) do
+          request.headers['X-USER-TOKEN'] = user.authentication_token
+        end
+
+        it 'devuelve una array con los adoptantes' do
+          get :index, format: 'json'
+          expect(parse_response(response)['adopters']).to_not be_nil
+        end
+
+        it 'devuelve codigo 200' do
+          get :index, format: 'json'
+          expect(response.status).to eq(200)
+        end
+      end
+
+      context 'con un usuario sin permisos para editar adoptantes' do
+        before(:each) do
+          request.headers['X-USER-TOKEN'] = user2.authentication_token
+        end
+
+        it 'devuelve una array con los adoptantes' do
+          get :index, format: 'json'
+          expect(parse_response(response)['adopters']).to_not be_nil
+        end
+
+        it 'devuelve codigo 200' do
+          get :index, format: 'json'
+          expect(response.status).to eq(200)
+        end
+      end
+    end
+  end
+
+  describe 'GET #show' do
+    context 'de un adoptante' do
+      context 'con un usuario con permisos para editar adoptantes' do
+        before(:each) do
+          request.headers['X-USER-TOKEN'] = user.authentication_token
+        end
+
+        it 'devuelve una array no vacio' do
+          get :show, id: adopter.id, format: 'json'
+          expect(parse_response(response)).to_not be_nil
+        end
+
+        it 'devuelve una array con los datos del adoptante creado' do
+          get :show, id: adopter.id, format: 'json'
+          expect(parse_response(response)['id']).to eq(adopter.id)
+          expect(parse_response(response)['ci']).to eq(adopter.ci)
+          expect(parse_response(response)['first_name']).to eq(adopter.first_name)
+          expect(parse_response(response)['last_name']).to eq(adopter.last_name)
+          expect(parse_response(response)['email']).to eq(adopter.email)
+          expect(parse_response(response)['phone']).to eq(adopter.phone)
+          expect(parse_response(response)['house_description']).to eq(adopter.house_description)
+          expect(parse_response(response)['blacklisted']).to eq(adopter.blacklisted)
+          expect(parse_response(response)['home_address']).to eq(adopter.home_address)
+        end
+
+        it 'devuelve codigo 200' do
+          get :show, id: adopter.id, format: 'json'
+          expect(response.status).to eq(200)
+        end
+      end
+
+      context 'con un usuario sin permisos para editar adoptantes' do
+        before(:each) do
+          request.headers['X-USER-TOKEN'] = user2.authentication_token
+        end
+
+        it 'devuelve una array no vacio' do
+          get :show, id: adopter2.id, format: 'json'
+          expect(parse_response(response)).to_not be_nil
+        end
+
+        it 'devuelve una array con los datos del adoptante creado' do
+          get :show, id: adopter.id, format: 'json'
+          expect(parse_response(response)['id']).to eq(adopter.id)
+          expect(parse_response(response)['ci']).to eq(adopter.ci)
+          expect(parse_response(response)['first_name']).to eq(adopter.first_name)
+          expect(parse_response(response)['last_name']).to eq(adopter.last_name)
+          expect(parse_response(response)['email']).to eq(adopter.email)
+          expect(parse_response(response)['phone']).to eq(adopter.phone)
+          expect(parse_response(response)['house_description']).to eq(adopter.house_description)
+          expect(parse_response(response)['blacklisted']).to eq(adopter.blacklisted)
+          expect(parse_response(response)['home_address']).to eq(adopter.home_address)
+        end
+
+        it 'devuelve codigo 200' do
+          get :show, id: adopter2.id, format: 'json'
+          expect(response.status).to eq(200)
+        end
+      end
+    end
+  end
+
+  describe 'GET #search' do
+    context 'se listan los adoptantes buscados' do
+
+      let!(:adToSearch) { create(:adopter, first_name: 'Miguel', last_name: 'Viera') }
+      let!(:adToSearch2) { create(:adopter, first_name: 'Charly', last_name: 'Sosa', blacklisted: 'true') }
+      let!(:adToSearch3) { create(:adopter, first_name: 'Char', last_name: 'Mate', blacklisted: 'true') }
+      let!(:adToSearch4) { create(:adopter, first_name: 'Charly', last_name: 'Sosa', blacklisted: 'false') }
+
+      before(:each) do
+        request.headers['X-USER-TOKEN'] = user.authentication_token
+      end
+
+      context 'por nombre especifico' do
+        it 'devuelve codigo 200' do
+          get :search, name: 'Miguel', format: 'json'
+          expect(response.status).to eq(200)
+        end
+
+        it 'devuelve un array no vacio' do
+          get :search, name: 'Miguel', format: 'json'
+          expect(parse_response(response)['adopters']).to_not be_nil
+        end
+
+        it 'devuelve el adoptante buscado' do
+          get :search, name: 'Miguel', format: 'json'
+          expect(parse_response(response)['adopters'][0]['id']).to eq(adToSearch.id)
+        end
+      end
+
+      context 'por nombre parcial en lista negra' do
+        it 'devuelve codigo 200' do
+          get :search, name: 'Cha', blacklisted: 'true', format: 'json'
+          expect(response.status).to eq(200)
+        end
+
+        it 'devuelve un array no vacio' do
+          get :search, name: 'Cha', blacklisted: 'true', format: 'json'
+          expect(parse_response(response)['adopters']).to_not be_nil
+        end
+
+        it 'devuelve los adoptantes encontrados' do
+          get :search, name: 'Cha', blacklisted: 'true', format: 'json'
+          @id1 = parse_response(response)['adopters'][0]['id']
+          @id2 = parse_response(response)['adopters'][1]['id']
+          @arrids = [@id1,@id2]
+          expect(@arrids).to match_array([adToSearch2.id,adToSearch3.id])
+        end
+      end
+
+      context 'por nombre especifico en lista negra' do
+        it 'devuelve codigo 200' do
+          get :search, name: 'Charly', blacklisted: 'true', format: 'json'
+          expect(response.status).to eq(200)
+        end
+
+        it 'devuelve un array no vacio' do
+          get :search, name: 'Charly', blacklisted: 'true', format: 'json'
+          expect(parse_response(response)['adopters']).to_not be_nil
+        end
+
+        it 'devuelve el adoptante de la lista negra' do
+          get :search, name: 'Charly', blacklisted: 'true', format: 'json'
+          expect(parse_response(response)['adopters'][0]['id']).to eq(adToSearch2.id)
+        end
+      end
+    end
+  end
+
+  describe 'DELETE #destroy' do
     
     let!(:adopter3) { create(:adopter) }
 
