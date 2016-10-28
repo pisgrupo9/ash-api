@@ -17,4 +17,8 @@ class AdopterPolicy
   def destroy?
     @current_user.adopters_edit? || @current_user.super_user?
   end
+
+  def set_as_blacklisted?
+    @current_user.adopters_edit? || @current_user.super_user?
+  end
 end

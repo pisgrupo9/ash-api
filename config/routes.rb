@@ -28,6 +28,7 @@ Rails.application.routes.draw do
       end
       resources :species, only: [:index]
       get 'adopters/search', to: 'adopters#search'
+      post 'adopters/:id/set_as_blacklisted', to: 'adopters#set_as_blacklisted'
       resources :adopters, except: [:new, :edit] do
         resources :comments, except: [:new, :edit, :update]
       end

@@ -1,7 +1,7 @@
 module Api
   module V1
     class AdoptersController < Api::V1::ApiController
-      before_action :set_adopter, only: [:show, :update, :destroy]
+      before_action :set_adopter, only: [:show, :update, :destroy, :set_as_blacklisted]
       respond_to :json
 
       def index
@@ -23,7 +23,7 @@ module Api
 
       def update
         authorize Adopter
-        if @adopter.update(adopter_params)
+        if @adopter.update(update_adopter_params)
           render json: @adopter.as_json(only: [:id]), status: :ok
         else
           render json: { error: @adopter.errors.as_json }, status: :bad_request
@@ -41,6 +41,12 @@ module Api
         render 'index.json.jbuilder'
       end
 
+      def set_as_blacklisted
+        authorize Adopter
+        @adopter.set_as_blacklisted
+        head :no_content
+      end
+
       private
 
       def set_adopter
@@ -50,6 +56,11 @@ module Api
       def adopter_params
         params.require(:adopter).permit(:first_name, :last_name, :ci, :email,
                                         :phone, :house_description, :blacklisted, :home_address)
+      end
+
+      def update_adopter_params
+        params.require(:adopter).permit(:first_name, :last_name, :email,
+                                        :phone, :house_description, :home_address)
       end
 
       def adopters_search_params

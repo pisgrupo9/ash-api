@@ -26,9 +26,22 @@ class Adopter < ActiveRecord::Base
   validates :phone, presence: true, format: { with: /\A[0-9]{8}[0-9]?\z/ }
   validate :correct_ci
 
+  def set_as_blacklisted
+    set_blacklisted_and_destroy_adoptions unless blacklisted
+  end
+
   private
 
   def correct_ci
     errors.add(:ci, 'La cédula de identidad no es válida.') unless ci =~ /\A[0-9]{7}[0-9]?\z/ && CiUY.validate(ci)
+  end
+
+  def set_blacklisted_and_destroy_adoptions
+    update(blacklisted: true)
+    destroy_adoptions if adoptions.any?
+  end
+
+  def destroy_adoptions
+    adoptions.each(&:destroy)
   end
 end
