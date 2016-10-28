@@ -13,7 +13,8 @@ Rails.application.routes.draw do
 
   namespace :api, defaults: { format: :json }  do
     namespace :v1 do
-       resources :users, only: [:update,:show] do
+      get 'users/:id/comments', to: 'users#comments'
+      resources :users, only: [:update,:show] do
         resources :reports, only:[:index]
        end
       get 'animals/search', to: 'animals#search'
@@ -27,7 +28,9 @@ Rails.application.routes.draw do
       end
       resources :species, only: [:index]
       get 'adopters/search', to: 'adopters#search'
-      resources :adopters, except: [:new, :edit]
+      resources :adopters, except: [:new, :edit] do
+        resources :comments, except: [:new, :edit, :update]
+      end
       resources :adoptions, only: [:create, :show, :destroy]
     end
   end

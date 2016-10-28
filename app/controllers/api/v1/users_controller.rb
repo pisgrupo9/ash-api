@@ -14,6 +14,11 @@ module Api
         @user = current_user
       end
 
+      def comments
+        user = current_user
+        @comments = user.comments
+      end
+
       private
 
       def render_bad_request
