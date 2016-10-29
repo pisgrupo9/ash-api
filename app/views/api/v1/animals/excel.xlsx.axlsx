@@ -1,10 +1,12 @@
 wb = xlsx_package.workbook
 wb.styles do |s|
-  heading = s.add_style alignment: {horizontal: :center}, b: true
+  heading = s.add_style(alignment: {horizontal: :center}, b: true, border: Axlsx::STYLE_THIN_BORDER, font_name: 'Arial', sz: 11)
+  date = s.add_style(format_code: "dd/mm/yyyy", border: Axlsx::STYLE_THIN_BORDER, alignment: {horizontal: :left}, font_name: 'Arial', sz: 11)
+  cell = s.add_style(border: Axlsx::STYLE_THIN_BORDER, alignment: {horizontal: :left}, font_name: 'Arial', sz: 11)
   wb.add_worksheet(name: "Animales") do |sheet|
-    sheet.add_row ["Nombre", "Número Chip", "Especie", "Raza", "Sexo", "Peso", "Vacunado", "Castrado", "Fecha admisión", "Fecha nacimiento", "Fecha muerte"], style: heading
+    sheet.add_row ["Nombre", "Número Chip", "Especie", "Raza", "Sexo", "Peso (Kg)", "Adoptado", "Vacunado", "Castrado", "Fecha admisión", "Fecha nacimiento", "Fecha muerte"], style: heading
     @animals.each do |animal|
-      sheet.add_row [animal.name, animal.chip_num, animal.species.name, animal.race, animal.sex_to_s, animal.weight, animal.vaccines_to_s, animal.castrated_to_s, animal.admission_date, animal.birthdate, animal.death_date]
+      sheet.add_row [animal.name, animal.chip_num, animal.species.name, animal.race, animal.sex_to_s, animal.weight, animal.adopted_to_s, animal.vaccines_to_s, animal.castrated_to_s, animal.admission_date, animal.birthdate, animal.death_date], style: [cell, cell, cell, cell, cell, cell, cell, cell, cell, date, date, date]
     end
   end
 end
