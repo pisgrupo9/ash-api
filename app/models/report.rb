@@ -21,6 +21,8 @@ class Report < ActiveRecord::Base
 
   validates :name, :type_file, :state, :user_id, presence: true
 
+  default_scope { order(created_at: :desc) }
+
   enum type_file:  [:pdf, :excel]
   enum state:  [:processing, :done]
 
