@@ -28,6 +28,13 @@ class Adoption < ActiveRecord::Base
   after_create :create_event, :set_adopted
   before_destroy :set_not_adopted, :event_unadopted
 
+  scope :search_by_create_date_from, lambda {|date|
+    where('date >= ?', date) if date.present?
+  }
+  scope :search_by_create_date_to, lambda {|date|
+    where('date <= ?', date) if date.present?
+  }
+
   private
 
   def adopter_blacklisted

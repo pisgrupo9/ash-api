@@ -17,6 +17,9 @@ Rails.application.routes.draw do
       resources :users, only: [:update,:show] do
         resources :reports, only:[:index]
        end
+      get 'statistics/animals_by_species', to: 'statistics#animals_by_species'
+      get 'statistics/adoptions_by_week', to: 'statistics#adoptions_by_week'
+      get 'statistics/entry_by_week', to: 'statistics#entry_by_week'
       get 'animals/search', to: 'animals#search'
       get 'animals/export_search', to: 'animals#export_search'
       get 'animals/:id/export_pdf', to: 'animals#export_pdf', :defaults => { :format => 'json' }
