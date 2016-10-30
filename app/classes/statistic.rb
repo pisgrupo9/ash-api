@@ -33,7 +33,7 @@ class Statistic
 
   def set_atributes(date_f, date_to)
     date_to.nil? ? @date_finish = Date.today : @date_finish = Date.parse(date_to)
-    date_f.nil? ? @date_iter = date_finish.months_ago(3).beginning_of_week : @date_iter = Date.parse(date_f).beginning_of_week
+    date_f.nil? ? @date_iter = @date_finish.months_ago(3).beginning_of_week : @date_iter = Date.parse(date_f).beginning_of_week
     @datos = []
   end
 end
