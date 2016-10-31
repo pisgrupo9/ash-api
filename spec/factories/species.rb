@@ -12,5 +12,6 @@
 FactoryGirl.define do
   factory :species, class: 'Species' do
     name  { Faker::Name.first_name }
+    adoptable { Faker::Boolean.boolean }
  end
 end

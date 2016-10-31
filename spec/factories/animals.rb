@@ -33,8 +33,9 @@ FactoryGirl.define do
     sex { Faker::Number.between(0, 1) }
     vaccines { Faker::Boolean.boolean }
     castrated { Faker::Boolean.boolean }
-    admission_date { Faker::Date.between(3.days.ago, Date.today) }
-    birthdate { Faker::Date.between(1.year.ago, 4.days.ago) }
+    admission_date { Faker::Date.between(7.days.ago, 5.days.ago) }
+    birthdate { Faker::Date.between(1.year.ago, 8.days.ago) }
+    death_date { Faker::Date.between(3.days.ago, Date.today) }
     profile_image { Faker::Internet.url }
     weight { Faker::Number.number(2) }
     species
