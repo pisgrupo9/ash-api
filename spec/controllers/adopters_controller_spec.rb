@@ -128,7 +128,6 @@ describe Api::V1::AdoptersController do
       let(:params1) { {first_name: Faker::Name.first_name} }
       let(:params2) { {last_name: Faker::Name.last_name} }
       let(:params3) { {home_address: Faker::Address.street_address} }
-      let(:params4) { {blacklisted: Faker::Boolean.boolean} }
       let(:params5) { {phone: Faker::Number.number(9)} }
       let(:params6) { {house_description: Faker::Lorem.sentence} }
 
@@ -160,11 +159,6 @@ describe Api::V1::AdoptersController do
         it 'la direccion se cambia correctamente' do
           put :update, id: adopter.id, adopter: params3, format: 'json'
           expect(adopter.reload.home_address).to eq(params3[:home_address])
-        end
-
-        it 'se cambia si esta o no en lista negra correctamente' do
-          put :update, id: adopter.id, adopter: params4, format: 'json'
-          expect(adopter.reload.blacklisted).to eq(params4[:blacklisted])
         end
 
         it 'el telefono se cambia correctamente' do
@@ -208,11 +202,6 @@ describe Api::V1::AdoptersController do
           expect(adopter.reload.home_address).to eq(params3[:home_address])
         end
 
-        it 'se cambia si esta o no en lista negra correctamente' do
-          put :update, id: adopter.id, adopter: params4, format: 'json'
-          expect(adopter.reload.blacklisted).to eq(params4[:blacklisted])
-        end
-
         it 'el telefono se cambia correctamente' do
           put :update, id: adopter.id, adopter: params5, format: 'json'
           expect(adopter.reload.phone).to eq(params5[:phone])
@@ -240,11 +229,7 @@ describe Api::V1::AdoptersController do
         let(:params7) { {phone: '  '} }
         let(:params8) { {first_name: ' '} }
         let(:params9) { {last_name: '   '} }
-
-        it 'devuelve codigo 400' do
-          put :update, id: adopter.id, adopter: params5, format: 'json'
-          expect(response.status).to eq(400)
-        end
+        let(:params10) { {blacklisted: !adopter.blacklisted} }
 
         it 'la ci no cambia por otra' do
           put :update, id: adopter.id, adopter: params5, format: 'json'
@@ -290,6 +275,11 @@ describe Api::V1::AdoptersController do
           put :update, id: adopter.id, adopter: params9, format: 'json'
           expect(adopter.reload.last_name).to_not eq(params9[:last_name])
         end
+
+        it 'no cambia si esta o no en la lista negra' do
+          put :update, id: adopter.id, adopter: params10, format: 'json'
+          expect(adopter.reload.blacklisted).to_not eq(params10[:blacklisted])
+        end
       end
 
       context 'de atributos del adoptante con usuario sin permisos' do
@@ -327,15 +317,14 @@ describe Api::V1::AdoptersController do
       context 'con un usuario con permisos para editar adoptantes' do
         before(:each) do
           request.headers['X-USER-TOKEN'] = user.authentication_token
+          get :index, format: 'json'
         end
 
         it 'devuelve una array con los adoptantes' do
-          get :index, format: 'json'
           expect(parse_response(response)['adopters']).to_not be_nil
         end
 
         it 'devuelve codigo 200' do
-          get :index, format: 'json'
           expect(response.status).to eq(200)
         end
       end
@@ -343,15 +332,14 @@ describe Api::V1::AdoptersController do
       context 'con un usuario sin permisos para editar adoptantes' do
         before(:each) do
           request.headers['X-USER-TOKEN'] = user2.authentication_token
+          get :index, format: 'json'
         end
 
         it 'devuelve una array con los adoptantes' do
-          get :index, format: 'json'
           expect(parse_response(response)['adopters']).to_not be_nil
         end
 
         it 'devuelve codigo 200' do
-          get :index, format: 'json'
           expect(response.status).to eq(200)
         end
       end
@@ -363,15 +351,14 @@ describe Api::V1::AdoptersController do
       context 'con un usuario con permisos para editar adoptantes' do
         before(:each) do
           request.headers['X-USER-TOKEN'] = user.authentication_token
+          get :show, id: adopter.id, format: 'json'
         end
 
         it 'devuelve una array no vacio' do
-          get :show, id: adopter.id, format: 'json'
           expect(parse_response(response)).to_not be_nil
         end
 
         it 'devuelve una array con los datos del adoptante creado' do
-          get :show, id: adopter.id, format: 'json'
           expect(parse_response(response)['id']).to eq(adopter.id)
           expect(parse_response(response)['ci']).to eq(adopter.ci)
           expect(parse_response(response)['first_name']).to eq(adopter.first_name)
@@ -384,7 +371,6 @@ describe Api::V1::AdoptersController do
         end
 
         it 'devuelve codigo 200' do
-          get :show, id: adopter.id, format: 'json'
           expect(response.status).to eq(200)
         end
       end
@@ -392,15 +378,14 @@ describe Api::V1::AdoptersController do
       context 'con un usuario sin permisos para editar adoptantes' do
         before(:each) do
           request.headers['X-USER-TOKEN'] = user2.authentication_token
+          get :show, id: adopter.id, format: 'json'
         end
 
         it 'devuelve una array no vacio' do
-          get :show, id: adopter2.id, format: 'json'
           expect(parse_response(response)).to_not be_nil
         end
 
         it 'devuelve una array con los datos del adoptante creado' do
-          get :show, id: adopter.id, format: 'json'
           expect(parse_response(response)['id']).to eq(adopter.id)
           expect(parse_response(response)['ci']).to eq(adopter.ci)
           expect(parse_response(response)['first_name']).to eq(adopter.first_name)
@@ -413,7 +398,6 @@ describe Api::V1::AdoptersController do
         end
 
         it 'devuelve codigo 200' do
-          get :show, id: adopter2.id, format: 'json'
           expect(response.status).to eq(200)
         end
       end
@@ -433,35 +417,37 @@ describe Api::V1::AdoptersController do
       end
 
       context 'por nombre especifico' do
-        it 'devuelve codigo 200' do
+        before(:each) do
           get :search, name: 'Miguel', format: 'json'
+        end
+
+        it 'devuelve codigo 200' do
           expect(response.status).to eq(200)
         end
 
         it 'devuelve un array no vacio' do
-          get :search, name: 'Miguel', format: 'json'
           expect(parse_response(response)['adopters']).to_not be_nil
         end
 
         it 'devuelve el adoptante buscado' do
-          get :search, name: 'Miguel', format: 'json'
           expect(parse_response(response)['adopters'][0]['id']).to eq(adToSearch.id)
         end
       end
 
       context 'por nombre parcial en lista negra' do
-        it 'devuelve codigo 200' do
+        before(:each) do
           get :search, name: 'Cha', blacklisted: 'true', format: 'json'
+        end
+
+        it 'devuelve codigo 200' do
           expect(response.status).to eq(200)
         end
 
         it 'devuelve un array no vacio' do
-          get :search, name: 'Cha', blacklisted: 'true', format: 'json'
           expect(parse_response(response)['adopters']).to_not be_nil
         end
 
         it 'devuelve los adoptantes encontrados' do
-          get :search, name: 'Cha', blacklisted: 'true', format: 'json'
           @id1 = parse_response(response)['adopters'][0]['id']
           @id2 = parse_response(response)['adopters'][1]['id']
           @arrids = [@id1,@id2]
@@ -470,20 +456,56 @@ describe Api::V1::AdoptersController do
       end
 
       context 'por nombre especifico en lista negra' do
-        it 'devuelve codigo 200' do
+        before(:each) do
           get :search, name: 'Charly', blacklisted: 'true', format: 'json'
+        end
+
+        it 'devuelve codigo 200' do
           expect(response.status).to eq(200)
         end
 
         it 'devuelve un array no vacio' do
-          get :search, name: 'Charly', blacklisted: 'true', format: 'json'
           expect(parse_response(response)['adopters']).to_not be_nil
         end
 
         it 'devuelve el adoptante de la lista negra' do
-          get :search, name: 'Charly', blacklisted: 'true', format: 'json'
           expect(parse_response(response)['adopters'][0]['id']).to eq(adToSearch2.id)
         end
+      end
+    end
+  end
+
+  describe 'PUT #set_as_blacklisted' do
+
+    let!(:adopter3) { create(:adopter) }
+
+    context 'exitoso' do
+      before(:each) do
+        request.headers['X-USER-TOKEN'] = user.authentication_token
+        put :set_as_blacklisted, id: adopter3.id, format: 'json'
+      end
+
+      it 'devuelve codigo 204 No Content' do
+        expect(response.status).to eq(204)
+      end
+
+      it 'no se envia al adoptante a la blacklist' do
+        expect(adopter3.reload.blacklisted).to_not eq('false')
+      end
+    end
+
+    context 'no exitoso' do
+      before(:each) do
+        request.headers['X-USER-TOKEN'] = user2.authentication_token
+        put :set_as_blacklisted, id: adopter3.id, format: 'json'
+      end
+
+      it 'devuelve codigo 403 No autorizado' do
+        expect(response.status).to eq(403)
+      end
+
+      it 'se envia al adoptante a la blacklist' do
+        expect(adopter3.reload.blacklisted).to_not eq('true')
       end
     end
   end
@@ -494,7 +516,7 @@ describe Api::V1::AdoptersController do
 
     context 'exitoso' do
       before(:each) do
-          request.headers['X-USER-TOKEN'] = user.authentication_token
+        request.headers['X-USER-TOKEN'] = user.authentication_token
       end
 
       it 'devuelve codigo 204 No Content' do
