@@ -32,7 +32,7 @@ describe Api::V1::AdoptersController do
         end
 
         it 'la cantidad de adoptantes aumenta' do
-          expect { post :create, adopter: attributes_for(:adopter), format: 'json' }.to change { Adopter.count }
+          expect { post :create, adopter: attributes_for(:adopter), format: 'json' }.to change { Adopter.count }.by(+1)
         end
 
         it 'devuelve un adoptante no vacío' do
@@ -53,7 +53,7 @@ describe Api::V1::AdoptersController do
         end
 
         it 'la cantidad de adoptantes aumenta' do
-          expect { post :create, adopter: attributes_for(:adopter), format: 'json' }.to change { Adopter.count }
+          expect { post :create, adopter: attributes_for(:adopter), format: 'json' }.to change { Adopter.count }.by(+1)
         end
 
         it 'devuelve un adoptante no vacío' do
@@ -312,7 +312,6 @@ describe Api::V1::AdoptersController do
     context 'se listan los adoptantes del sistema' do
       
       let!(:adopter4) { create(:adopter) }
-      let!(:adopter5) { create(:adopter) }
 
       context 'con un usuario con permisos para editar adoptantes' do
         before(:each) do
@@ -320,12 +319,23 @@ describe Api::V1::AdoptersController do
           get :index, format: 'json'
         end
 
-        it 'devuelve una array con los adoptantes' do
+        it 'devuelve codigo 200' do
+          expect(response.status).to eq(200)
+        end
+
+        it 'devuelve una array no vacio' do
           expect(parse_response(response)['adopters']).to_not be_nil
         end
 
-        it 'devuelve codigo 200' do
-          expect(response.status).to eq(200)
+        it 'devuelve una array con los adoptantes' do
+          expect(parse_response(response)['adopters'][1]['id']).to eq(adopter2.id)
+          expect(parse_response(response)['adopters'][1]['ci']).to eq(adopter2.ci)
+          expect(parse_response(response)['adopters'][1]['first_name']).to eq(adopter2.first_name)
+          expect(parse_response(response)['adopters'][1]['last_name']).to eq(adopter2.last_name)
+          expect(parse_response(response)['adopters'][0]['id']).to eq(adopter4.id)
+          expect(parse_response(response)['adopters'][0]['ci']).to eq(adopter4.ci)
+          expect(parse_response(response)['adopters'][0]['first_name']).to eq(adopter4.first_name)
+          expect(parse_response(response)['adopters'][0]['last_name']).to eq(adopter4.last_name)
         end
       end
 
@@ -335,12 +345,23 @@ describe Api::V1::AdoptersController do
           get :index, format: 'json'
         end
 
-        it 'devuelve una array con los adoptantes' do
+        it 'devuelve codigo 200' do
+          expect(response.status).to eq(200)
+        end
+
+        it 'devuelve una array no vacio' do
           expect(parse_response(response)['adopters']).to_not be_nil
         end
 
-        it 'devuelve codigo 200' do
-          expect(response.status).to eq(200)
+        it 'devuelve una array con los adoptantes' do
+          expect(parse_response(response)['adopters'][1]['id']).to eq(adopter2.id)
+          expect(parse_response(response)['adopters'][1]['ci']).to eq(adopter2.ci)
+          expect(parse_response(response)['adopters'][1]['first_name']).to eq(adopter2.first_name)
+          expect(parse_response(response)['adopters'][1]['last_name']).to eq(adopter2.last_name)
+          expect(parse_response(response)['adopters'][0]['id']).to eq(adopter4.id)
+          expect(parse_response(response)['adopters'][0]['ci']).to eq(adopter4.ci)
+          expect(parse_response(response)['adopters'][0]['first_name']).to eq(adopter4.first_name)
+          expect(parse_response(response)['adopters'][0]['last_name']).to eq(adopter4.last_name)
         end
       end
     end
@@ -410,7 +431,6 @@ describe Api::V1::AdoptersController do
       let!(:adToSearch) { create(:adopter, first_name: 'Miguel', last_name: 'Viera') }
       let!(:adToSearch2) { create(:adopter, first_name: 'Charly', last_name: 'Sosa', blacklisted: 'true') }
       let!(:adToSearch3) { create(:adopter, first_name: 'Char', last_name: 'Mate', blacklisted: 'true') }
-      let!(:adToSearch4) { create(:adopter, first_name: 'Charly', last_name: 'Sosa', blacklisted: 'false') }
 
       before(:each) do
         request.headers['X-USER-TOKEN'] = user.authentication_token
@@ -434,7 +454,7 @@ describe Api::V1::AdoptersController do
         end
       end
 
-      context 'por nombre parcial en lista negra' do
+      context 'por nombre parcial que estan en lista negra' do
         before(:each) do
           get :search, name: 'Cha', blacklisted: 'true', format: 'json'
         end
@@ -455,7 +475,7 @@ describe Api::V1::AdoptersController do
         end
       end
 
-      context 'por nombre especifico en lista negra' do
+      context 'por nombre especifico que esta en lista negra' do
         before(:each) do
           get :search, name: 'Charly', blacklisted: 'true', format: 'json'
         end
@@ -489,8 +509,8 @@ describe Api::V1::AdoptersController do
         expect(response.status).to eq(204)
       end
 
-      it 'no se envia al adoptante a la blacklist' do
-        expect(adopter3.reload.blacklisted).to_not eq('false')
+      it 'se envia al adoptante a la blacklist' do
+        expect(adopter3.reload.blacklisted).to eq(true)
       end
     end
 
@@ -504,8 +524,8 @@ describe Api::V1::AdoptersController do
         expect(response.status).to eq(403)
       end
 
-      it 'se envia al adoptante a la blacklist' do
-        expect(adopter3.reload.blacklisted).to_not eq('true')
+      it 'no se envia al adoptante a la blacklist' do
+        expect(adopter3.reload.blacklisted).to eq(false)
       end
     end
   end
@@ -525,7 +545,7 @@ describe Api::V1::AdoptersController do
       end
 
       it 'la cantidad de adoptantes cambia' do
-        expect { delete :destroy, id: adopter3.id, format: 'json' }.to change { Adopter.count }
+        expect { delete :destroy, id: adopter3.id, format: 'json' }.to change { Adopter.count }.by(-1)
       end
     end
 
