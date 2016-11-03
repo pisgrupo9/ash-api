@@ -19,5 +19,7 @@ class Comment < ActiveRecord::Base
   belongs_to :user
   belongs_to :adopter
 
+  default_scope { order(created_at: :desc) }
+
   validates :text, length: { maximum: 500 }
 end
