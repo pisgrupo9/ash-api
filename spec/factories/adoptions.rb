@@ -13,7 +13,6 @@
 #
 #  index_adoptions_on_adopter_id  (adopter_id)
 #  index_adoptions_on_animal_id   (animal_id) UNIQUE
-#
 
 FactoryGirl.define do
   factory :adoption, class: 'Adoption' do

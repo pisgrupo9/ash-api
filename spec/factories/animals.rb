@@ -7,8 +7,8 @@
 #  name           :string           not null
 #  race           :string
 #  sex            :integer          not null
-#  vaccines       :boolean          not null
-#  castrated      :boolean          not null
+#  vaccines       :boolean          
+#  castrated      :boolean          
 #  admission_date :date             not null
 #  birthdate      :date             not null
 #  death_date     :date
