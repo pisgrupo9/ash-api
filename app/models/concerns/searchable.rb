@@ -40,10 +40,14 @@ module Searchable
       by_castrated(castrated) if castrated.present?
     }
     scope :search_by_admission_date_from, lambda {|admission_date_from|
-      where('admission_date >= ?', admission_date_from) if admission_date_from.present?
+      where('admission_date >= ?', admission_date_from) if admission_date_from.present? &&
+                                                           !(admission_date_from =~ /\A\d{4}-\d{,2}-\d{,2}\z/).nil? &&
+                                                           Date.valid_date?(*admission_date_from.split('-').map(&:to_i))
     }
     scope :search_by_admission_date_to, lambda {|admission_date_to|
-      where('admission_date <= ?', admission_date_to) if admission_date_to.present?
+      where('admission_date <= ?', admission_date_to) if admission_date_to.present? &&
+                                                         !(admission_date_to =~ /\A\d{4}-\d{,2}-\d{,2}\z/).nil? &&
+                                                         Date.valid_date?(*admission_date_to.split('-').map(&:to_i))
     }
     scope :search_by_type, lambda {|type|
       if type == 'Adoptable'

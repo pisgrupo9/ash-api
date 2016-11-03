@@ -22,7 +22,7 @@ class Event < ActiveRecord::Base
   validates :name, length: { maximum: 50 }
   validate :correct_date
 
-  default_scope { order(date: :desc) }
+  default_scope { order({ date: :desc }, :name) }
 
   def self.search(params)
     text = '%' + I18n.transliterate(params[:text]) + '%'

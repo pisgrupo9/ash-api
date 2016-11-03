@@ -13,6 +13,7 @@ class Species < ActiveRecord::Base
   has_many :animals
 
   validates :name, presence: true, allow_nil: false, uniqueness: true
+  validates :name, format: { without: /\s/, message: 'no puede tener espacios' }
 
   def not_deleteable?
     [1, 2, 3].include? id
