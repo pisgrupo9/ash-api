@@ -41,6 +41,7 @@ class Animal < ActiveRecord::Base
   validates :name, uniqueness: true, if: :chip_num_nil?
   validates :admission_date, presence: true
   validates :birthdate, presence: true
+  validates :sex, presence: true
   validate :correct_death_date, unless: 'death_date.nil?'
   validate :correct_birthdate
   validate :correct_admission_date
