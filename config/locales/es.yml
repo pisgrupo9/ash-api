@@ -13,6 +13,9 @@ es:
       adopter:
         one: Adoptante
         other: Adoptantes
+      animal:
+        one: Animal
+        other: Animales
     attributes:
       admin_user:
         current_sign_in_at: Inicio de sesión actual
@@ -43,6 +46,23 @@ es:
         house_description: Descripción
         created_at: Creado
         updated_at: Actualizado
+      animal:
+        chip_num: Núm. de chip
+        name: Nombre
+        race: Raza
+        sex: Sexo
+        vaccines: Vacunas
+        castrated: Castrado
+        admission_date: Fecha de ing.
+        birthdate: Fecha de nac.
+        death_date: Fecha de muerte
+        species_id: Especie
+        species: Especie
+        created_at: Creado
+        updated_at: Actualizado
+        weight: Peso
+        type: Tipo
+        adopted: Adoptado
     enums:
       user:
         permissions:
