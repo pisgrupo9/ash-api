@@ -13,7 +13,7 @@ module Api
       end
 
       def entry_by_week
-        @datos = Statistic.new.entry_by_week(params[:date_from], params[:date_to])
+        @datos = Statistic.new.entry_by_week(params[:date_from], params[:date_to], params[:species_id])
         render json: { datos: @datos }
       end
     end
