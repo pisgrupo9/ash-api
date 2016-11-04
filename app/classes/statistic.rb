@@ -5,26 +5,25 @@ class Statistic
       date_aux = @date_iter
       date_start = date_aux
       date_finish_range = date_aux.next_week.yesterday
-      dato = { date_start: date_start, date_finish: date_finish_range }
       adoptions_count = Adoption.search_by_create_date_from(date_start)
                         .search_by_create_date_to(date_finish_range).count
-      dato[:adoptions_count] = adoptions_count
+      dato = { date_start: date_start, date_finish:  date_finish_range, adoptions_count: adoptions_count }
       @datos.push(dato)
       @date_iter = date_start.next_week
     end
     @datos
   end
 
-  def entry_by_week(date_from, date_to)
+  def entry_by_week(date_from, date_to, species_id)
+    species_id = 1 if species_id.nil?
     set_atributes(date_from, date_to)
     while @date_iter < @date_finish
       date_aux = @date_iter
       date_start = date_aux
       date_finish_range = date_aux.next_week.yesterday
-      dato = { date_start: date_start, date_finish:  date_finish_range }
-      entry_count = Animal.search_by_type('Adoptable').search_by_admission_date_from(date_start)
-                    .search_by_admission_date_to(date_finish_range).count
-      dato[:entry_count] = entry_count
+      entry_count = Animal.search_by_species_id(species_id).search_by_admission_date_from(date_start.to_s)
+                    .search_by_admission_date_to(date_finish_range.to_s).count
+      dato = { date_start: date_start, date_finish:  date_finish_range, entry_count: entry_count }
       @datos.push(dato)
       @date_iter = date_start.next_week
     end
