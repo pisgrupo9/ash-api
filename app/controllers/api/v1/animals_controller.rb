@@ -37,7 +37,7 @@ module Api
         authorize Animal
         species = @animal.species
         species.adoptable ? update_params = adoptable_params : update_params = animal_params
-        if @animal.update(update_params)
+        if @animal.update(update_params.except(:species_id))
           render json: @animal.as_json(only: [:id]), status: :ok
         else
           render json: { error: @animal.errors.as_json }, status: :bad_request
