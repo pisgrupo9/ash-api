@@ -51,8 +51,11 @@ es:
         name: Nombre
         race: Raza
         sex: Sexo
+        sex_to_s: Sexo
         vaccines: Vacunas
+        vaccines_to_s: Vacunas
         castrated: Castrado
+        castrated_to_s: Castrado
         admission_date: Fecha de ing.
         birthdate: Fecha de nac.
         death_date: Fecha de muerte
@@ -62,7 +65,10 @@ es:
         updated_at: Actualizado
         weight: Peso
         type: Tipo
+        type_to_s: Tipo
         adopted: Adoptado
+        adopted_to_s: Adoptado
+        profile_image: Imagen de perfil
     enums:
       user:
         permissions:
