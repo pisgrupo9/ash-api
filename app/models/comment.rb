@@ -21,5 +21,5 @@ class Comment < ActiveRecord::Base
 
   default_scope { order(created_at: :desc) }
 
-  validates :text, length: { maximum: 500 }
+  validates :text, length: { maximum: 500 }, presence: true
 end
