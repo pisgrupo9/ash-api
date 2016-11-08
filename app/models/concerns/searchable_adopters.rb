@@ -6,8 +6,10 @@ module SearchableAdopters
 
     scope :by_name, lambda {|name|
       text = '%' + I18n.transliterate(name) + '%'
-      where('unaccent(first_name) ilike ? or unaccent(last_name) ilike ?', text, text)
+      where("unaccent(first_name) ilike ? or unaccent(last_name) ilike ? or
+              concat(unaccent(first_name), ' ', unaccent(last_name)) ilike ?", text, text, text)
     }
+
     pg_search_scope :by_blacklisted, against: :blacklisted
 
     scope :search_by_name, lambda {|name|
