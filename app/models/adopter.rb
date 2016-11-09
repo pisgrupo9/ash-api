@@ -17,7 +17,7 @@
 
 class Adopter < ActiveRecord::Base
   include SearchableAdopters
-  has_many :adoptions
+  has_many :adoptions, dependent: :destroy
   has_many :animals, through: :adoptions
   has_many :comments, dependent: :destroy
   validates :ci, uniqueness: true

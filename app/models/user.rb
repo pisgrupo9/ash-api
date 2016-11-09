@@ -26,7 +26,7 @@
 class User < ActiveRecord::Base
   include Authenticable
   has_many :reports, dependent: :destroy
-  has_many :comments
+  has_many :comments, dependent: :destroy
 
   validates :first_name, :last_name, :encrypted_password, presence: true
   validates :first_name, :last_name, length: { maximum: 30 }
