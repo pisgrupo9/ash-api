@@ -39,6 +39,6 @@ class Report < ActiveRecord::Base
 
   def update_list
     reports = User.find(user_id).reports
-    reports.first.destroy if reports.count > 20
+    reports.last.destroy if reports.count > 20
   end
 end
