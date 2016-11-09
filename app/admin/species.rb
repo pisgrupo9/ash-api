@@ -35,7 +35,7 @@ ActiveAdmin.register Species do
   controller do
     def remove_specie
       specie = Species.find(params[:id])
-      specie.delete
+      specie.destroy
       redirect_to(admin_species_index_path)
     end
   end

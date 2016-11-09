@@ -28,7 +28,7 @@
 class Animal < ActiveRecord::Base
   include Searchable
   belongs_to :species
-  has_one :adoption
+  has_one :adoption, dependent: :destroy
   has_one :adopter, through: :adoption
   delegate :name, to: :species, prefix: true
 

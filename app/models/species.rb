@@ -10,7 +10,7 @@
 #
 
 class Species < ActiveRecord::Base
-  has_many :animals
+  has_many :animals, dependent: :destroy
 
   validates :name, presence: true, allow_nil: false, uniqueness: true
   validates :name, format: { without: /\s/, message: 'no puede tener espacios' }
