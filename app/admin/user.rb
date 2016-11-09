@@ -41,7 +41,7 @@ ActiveAdmin.register User do
   filter :last_name
   filter :phone
   filter :account_active
-  filter :permissions
+  filter :permissions, as: :select, collection: User.permissions
   filter :created_at
   filter :updated_at
 

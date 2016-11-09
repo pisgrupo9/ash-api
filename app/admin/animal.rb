@@ -8,15 +8,15 @@ ActiveAdmin.register Animal do
     column :chip_num
     column :species_id
     column :race
-    column :sex
+    column :sex_to_s, sortable: :sex
     column :admission_date
     column :birthdate
     column :death_date
     column :weight
-    column :vaccines
-    column :castrated
-    column :type
-    column :adopted
+    column :vaccines_to_s, sortable: :vaccines
+    column :castrated_to_s, sortable: :castrated
+    column :type_to_s, sortable: :type
+    column :adopted_to_s, sortable: :adopted
     column :created_at
     column :updated_at
 
@@ -25,9 +25,9 @@ ActiveAdmin.register Animal do
 
   filter :name
   filter :chip_num
-  filter :species_id
+  filter :species
   filter :race
-  filter :sex
+  filter :sex, as: :select, collection: Animal.sexes
   filter :admission_date
   filter :birthdate
   filter :death_date
@@ -45,15 +45,15 @@ ActiveAdmin.register Animal do
       row :chip_num
       row :species_id
       row :race
-      row :sex
+      row :sex_to_s
       row :admission_date
       row :birthdate
       row :death_date
       row :weight
-      row :type
-      row :vaccines
-      row :castrated
-      row :adopted
+      row :type_to_s
+      row :vaccines_to_s
+      row :castrated_to_s
+      row :adopted_to_s
       row :profile_image
       row :created_at
       row :updated_at
