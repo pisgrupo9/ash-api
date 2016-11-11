@@ -36,7 +36,7 @@ class Animal < ActiveRecord::Base
   has_many :events, dependent: :destroy
 
   validates :species, presence: true
-  validates :chip_num, uniqueness: true, allow_nil: true
+  validates :chip_num, presence: true, allow_blank: false, allow_nil: true, uniqueness: true
   validates :name, presence: true, length: { maximum: 30 }
   validates :name, uniqueness: true, if: :chip_num_nil?
   validates :admission_date, presence: true
