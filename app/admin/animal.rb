@@ -1,5 +1,6 @@
 ActiveAdmin.register Animal do
-  actions :all, except: [:new, :edit]
+  actions :all, except: [:new, :edit, :destroy]
+  member_action :remove_animal, method: :post
 
   index do
     selectable_column
@@ -19,8 +20,13 @@ ActiveAdmin.register Animal do
     column :adopted_to_s, sortable: :adopted
     column :created_at
     column :updated_at
-
-    actions
+    actions defaults: true do |animal|
+      link_to(
+        'Eliminar',
+        remove_animal_admin_animal_path(animal),
+        method: :post,
+        data: { confirm: 'Se eliminará el animal y su adopción (en caso que tenga). ¿Está seguro/a?' })
+    end
   end
 
   filter :name
@@ -57,6 +63,14 @@ ActiveAdmin.register Animal do
       row :profile_image
       row :created_at
       row :updated_at
+    end
+  end
+
+  controller do
+    def remove_animal
+      animal = Animal.find(params[:id])
+      animal.destroy
+      redirect_to(admin_animals_path)
     end
   end
 end

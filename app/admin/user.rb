@@ -1,7 +1,7 @@
 ActiveAdmin.register User do
   permit_params :email, :first_name, :last_name,
-                :phone, :account_active, :permissions
-
+                :phone, :account_active, :permissions, :password, :password_confirmation
+  actions :all, except: [:destroy]
   member_action :update_account, method: :post
 
   form do |f|
@@ -10,6 +10,8 @@ ActiveAdmin.register User do
       f.input :first_name
       f.input :last_name
       f.input :phone
+      f.input :password
+      f.input :password_confirmation
       f.input :permissions, include_blank: false
     end
 
@@ -29,9 +31,15 @@ ActiveAdmin.register User do
     column :updated_at
 
     actions defaults: true do |user|
-      user.account_active ? text_link = 'Desactivar Cuenta' : text_link = 'Activar Cuenta'
+      if user.account_active
+        text_link = 'Desactivar Cuenta'
+        message = 'Se eliminará el usuario y todos sus comentarios sobre los adoptantes. ¿Está seguro/a?'
+      else
+        text_link = 'Activar Cuenta'
+        message = 'Se activará la cuenta del usuario. ¿Está seguro/a?'
+      end
       link_to "#{text_link}", update_account_admin_user_path(user.id),
-              method: :post, data: { no_turbolink: true }, class: 'member_link'
+              method: :post, data: { no_turbolink: true, confirm: message }, class: 'member_link'
     end
   end
 
@@ -60,7 +68,7 @@ ActiveAdmin.register User do
   end
 
   controller do
-    before_action :load_user, only: [:update_account]
+    before_action :load_user, only: [:update_account, :remove_user]
 
     def update_account
       @user.account_active ? @user.destroy : @user.update(account_active: true)
