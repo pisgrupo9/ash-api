@@ -75,6 +75,18 @@ ActiveAdmin.register User do
       redirect_to(admin_users_path)
     end
 
+    def update
+      if params[:user][:password].blank? && params[:user][:password_confirmation].blank?
+        params[:user].delete('password')
+        params[:user].delete('password_confirmation')
+      end
+
+      super do |format|
+        format.html { redirect_to admin_users_path }
+        format.json { render status: :ok }
+      end
+    end
+
     private
 
     def load_user

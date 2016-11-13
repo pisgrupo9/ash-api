@@ -15,6 +15,7 @@ AbcSize:
     - 'app/controllers/api/v1/passwords_controller.rb'
     - 'app/controllers/api/v1/registrations_controller.rb'
     - 'app/models/concerns/searchable.rb'
+    - 'app/admin/user.rb'
 
 LineLength:
   Description: 'Limit lines to 130 characters.'

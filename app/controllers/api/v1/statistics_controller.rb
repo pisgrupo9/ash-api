@@ -21,6 +21,10 @@ module Api
       private
 
       def correct_dates
+        check_dates if params[:date_from].present? && params[:date_to].present?
+      end
+
+      def check_dates
         parse_date_to = Date.parse(params[:date_to])
         if parse_date_to > Date.today
           render json: { error: 'La fecha de fin no puede ser mayor a la fecha de hoy.' }, status: :unprocessable_entity
