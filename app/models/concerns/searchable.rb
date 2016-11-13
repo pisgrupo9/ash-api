@@ -59,13 +59,16 @@ module Searchable
     scope :search_by_adopted, lambda {|adopted|
       by_adopted(adopted) if adopted.present?
     }
+    scope :search_by_adoptable, lambda {|adoptable|
+      by_type(Adoptable).by_adopted(false).by_vaccines(true).by_castrated(true).where(death_date: nil) if adoptable == true
+    }
 
     def self.search(params)
       search_by_type(params[:type]).search_by_adopted(params[:adopted]).search_by_name(params[:name])
         .search_by_chip_num(params[:chip_num]).search_by_race(params[:race]).search_by_sex(params[:sex])
         .search_by_vaccines(params[:vaccines]).search_by_weight(params[:weight]).search_by_species_id(params[:species_id])
         .search_by_castrated(params[:castrated]).search_by_admission_date_from(params[:admission_date_from])
-        .search_by_admission_date_to(params[:admission_date_to])
+        .search_by_admission_date_to(params[:admission_date_to]).search_by_adoptable(params[:adoptable])
     end
   end
 end

@@ -91,6 +91,10 @@ class Animal < ActiveRecord::Base
     end
   end
 
+  def available?
+    vaccines & castrated & death_date.nil?
+  end
+
   private
 
   def to_s

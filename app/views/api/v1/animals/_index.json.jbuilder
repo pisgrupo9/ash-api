@@ -13,6 +13,7 @@ json.animals @animals do |animal|
   json.species animal.species.name
   json.species_id animal.species_id
   json.type animal.type
+  json.available animal.available? if animal.adoptable?
   json.adopted animal.adopted if animal.adoptable?
   json.profile_image_thumb animal.profile_image.thumb.url
 end
