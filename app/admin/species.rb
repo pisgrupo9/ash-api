@@ -19,7 +19,8 @@ ActiveAdmin.register Species do
         'Eliminar',
         remove_specie_admin_species_path(specie),
         method: :post,
-        data: { confirm: 'La especie se eliminará. ¿Está seguro/a?' }) unless specie.not_deleteable?
+        data: { confirm: 'Se eliminará la especie y todos los animales pertenecientes a la misma. ¿Está seguro/a?'
+          }) unless specie.not_deleteable?
     end
   end
 

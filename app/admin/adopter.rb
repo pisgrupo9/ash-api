@@ -1,6 +1,8 @@
 ActiveAdmin.register Adopter do
   permit_params :email, :first_name, :last_name, :phone, :blacklisted, :home_address,
                 :ci, :house_description
+  actions :all, except: [:destroy]
+  member_action :remove_adopter, method: :post
 
   form do |f|
     f.inputs 'Details' do
@@ -9,9 +11,10 @@ ActiveAdmin.register Adopter do
       f.input :last_name
       f.input :email
       f.input :phone
-      f.input :blacklisted, include_blank: false
+      f.input :home_address
+      f.input :house_description
+      f.input :blacklisted
     end
-
     f.actions
   end
 
@@ -28,8 +31,13 @@ ActiveAdmin.register Adopter do
     column :house_description
     column :created_at
     column :updated_at
-
-    actions
+    actions defaults: true do |adopter|
+      link_to(
+        'Eliminar',
+        remove_adopter_admin_adopter_path(adopter),
+        method: :post,
+        data: { confirm: 'Se eliminará el adoptante y todas sus adopciones. ¿Está seguro/a?' })
+    end
   end
 
   filter :ci
@@ -54,6 +62,14 @@ ActiveAdmin.register Adopter do
       row :house_description
       row :created_at
       row :updated_at
+    end
+  end
+
+  controller do
+    def remove_adopter
+      adopter = Adopter.find(params[:id])
+      adopter.destroy
+      redirect_to(admin_adopters_path)
     end
   end
 end
