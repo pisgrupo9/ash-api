@@ -12,6 +12,7 @@ json.death_date @animal.death_date
 json.species @animal.species.name
 json.species_id @animal.species_id
 json.type @animal.type_to_s
+json.available @animal.available? if @animal.adoptable?
 json.adopted @animal.adopted if @animal.adoptable?
 json.adopter_id @animal.adopter.id if @animal.adopter
 json.adoption_id @animal.adoption.id if @animal.adoption
@@ -19,4 +20,3 @@ json.profile_image @animal.profile_image.url
 json.profile_image_thumb @animal.profile_image.thumb.url
 json.profile_image_medium @animal.profile_image.medium.url
 json.profile_image_maximum @animal.profile_image.maximun.url
-
