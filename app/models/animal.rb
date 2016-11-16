@@ -92,7 +92,7 @@ class Animal < ActiveRecord::Base
   end
 
   def available?
-    vaccines & castrated & death_date.nil?
+    vaccines & castrated & death_date.nil? & !adopted
   end
 
   private
