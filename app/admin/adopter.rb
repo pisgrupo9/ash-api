@@ -5,7 +5,7 @@ ActiveAdmin.register Adopter do
   member_action :remove_adopter, method: :post
 
   form do |f|
-    f.inputs 'Details' do
+    f.inputs 'Datos' do
       f.input :ci
       f.input :first_name
       f.input :last_name
@@ -13,7 +13,7 @@ ActiveAdmin.register Adopter do
       f.input :phone
       f.input :home_address
       f.input :house_description
-      f.input :blacklisted
+      f.input :blacklisted if f.object.new_record?
     end
     f.actions
   end
@@ -27,8 +27,6 @@ ActiveAdmin.register Adopter do
     column :email
     column :phone
     column :blacklisted
-    column :home_address
-    column :house_description
     column :created_at
     column :updated_at
     actions defaults: true do |adopter|

@@ -8,7 +8,6 @@ ActiveAdmin.register Animal do
     column :name
     column :chip_num
     column :species_id
-    column :race
     column :sex_to_s, sortable: :sex
     column :admission_date
     column :birthdate

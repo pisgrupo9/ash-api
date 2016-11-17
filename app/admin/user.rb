@@ -5,13 +5,15 @@ ActiveAdmin.register User do
   member_action :update_account, method: :post
 
   form do |f|
-    f.inputs 'Details' do
+    f.inputs 'Datos' do
       f.input :email
       f.input :first_name
       f.input :last_name
       f.input :phone
-      f.input :password
-      f.input :password_confirmation
+      if f.object.new_record?
+        f.input :password
+        f.input :password_confirmation
+      end
       f.input :permissions, include_blank: false
     end
 
