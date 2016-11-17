@@ -2,13 +2,15 @@ ActiveAdmin.register Species do
   permit_params :name, :adoptable
   actions :all, except: [:destroy]
   member_action :remove_specie, method: :post
+
   form do |f|
-    f.inputs 'Details' do
+    f.inputs 'Datos' do
       f.input :name
       f.input :adoptable
     end
     f.actions
   end
+
   index do
     selectable_column
     id_column
@@ -20,7 +22,7 @@ ActiveAdmin.register Species do
         remove_specie_admin_species_path(specie),
         method: :post,
         data: { confirm: 'Se eliminará la especie y todos los animales pertenecientes a la misma. ¿Está seguro/a?'
-          }) unless specie.not_deleteable?
+          }) unless specie.adoptable?
     end
   end
 
