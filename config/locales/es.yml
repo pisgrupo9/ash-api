@@ -56,9 +56,9 @@ es:
         vaccines_to_s: Vacunas
         castrated: Castrado
         castrated_to_s: Castrado
-        admission_date: Fecha de ing.
-        birthdate: Fecha de nac.
-        death_date: Fecha de muerte
+        admission_date: Ingreso
+        birthdate: Nacimiento
+        death_date: Muerte
         species_id: Especie
         species: Especie
         created_at: Creado
@@ -115,7 +115,7 @@ es:
     - sábado
     formats:
       default: "%d/%m/%Y"
-      long: "%d de %B de %Y"
+      long: "%d-%b-%Y"
       short: "%d de %b"
     month_names:
     -
@@ -284,6 +284,6 @@ es:
     am: am
     formats:
       default: "%A, %d de %B de %Y %H:%M:%S %z"
-      long: "%d de %B de %Y %H:%M"
+      long: "%d-%b-%Y %H:%M"
       short: "%d de %b %H:%M"
     pm: pm
