@@ -8,7 +8,6 @@ module Authenticable
            :registerable,
            :validatable               #  Validate the email
 
-    validates :email, uniqueness: true
     validates :encrypted_password, uniqueness: false
 
     def invalidate_token
