@@ -33,7 +33,7 @@ class User < ActiveRecord::Base
   validates :phone, presence: true, format: { with: /\A[0-9]{8}[0-9]?\z/ }
   before_update :send_mail_accepted_user, if: :account_active_changed?
   before_update :send_mail_permissions_changed, if: :permissions_changed_and_is_active?
-  before_destroy :send_mail_rejected_user
+  before_destroy :send_mail_deleted_user
 
   enum permissions:  [:default_user, :animals_edit, :adopters_edit, :super_user]
 
@@ -45,8 +45,12 @@ class User < ActiveRecord::Base
     UserMailer.accepted_user_email(self).deliver_now
   end
 
-  def send_mail_rejected_user
-    UserMailer.rejected_user_email(self).deliver_now
+  def send_mail_deleted_user
+    if account_active
+      UserMailer.deactivated_user_email(self).deliver_now
+    else
+      UserMailer.rejected_user_email(self).deliver_now
+    end
   end
 
   def send_mail_permissions_changed

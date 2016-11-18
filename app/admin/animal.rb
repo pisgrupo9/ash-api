@@ -15,7 +15,6 @@ ActiveAdmin.register Animal do
     column :weight
     column :vaccines_to_s, sortable: :vaccines
     column :castrated_to_s, sortable: :castrated
-    column :type_to_s, sortable: :type
     column :adopted_to_s, sortable: :adopted
     column :created_at
     column :updated_at

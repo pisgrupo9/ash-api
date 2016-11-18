@@ -2,7 +2,8 @@ ActiveAdmin.register User do
   permit_params :email, :first_name, :last_name,
                 :phone, :account_active, :permissions, :password, :password_confirmation
   actions :all, except: [:destroy]
-  member_action :update_account, method: :post
+  member_action :activate_account, method: :post
+  member_action :delete_account, method: :post
 
   form do |f|
     f.inputs 'Datos' do
@@ -15,6 +16,7 @@ ActiveAdmin.register User do
         f.input :password_confirmation
       end
       f.input :permissions, include_blank: false
+      f.input :account_active if f.object.new_record? || !User.find(params[:id]).account_active?
     end
 
     f.actions
@@ -34,14 +36,16 @@ ActiveAdmin.register User do
 
     actions defaults: true do |user|
       if user.account_active
-        text_link = 'Desactivar Cuenta'
+        text_link = 'Desactivar'
         message = 'Se eliminará el usuario y todos sus comentarios sobre los adoptantes. ¿Está seguro/a?'
       else
-        text_link = 'Activar Cuenta'
-        message = 'Se activará la cuenta del usuario. ¿Está seguro/a?'
+        item 'Activar', activate_account_admin_user_path(user.id), method: :post, data: { no_turbolink: true, confirm:
+          'Se activará la cuenta del usuario. ¿Está seguro/a?' }, class: 'member_link'
+        text_link = 'Eliminar'
+        message = 'Se eliminará el usuario. ¿Está seguro/a?'
       end
-      link_to "#{text_link}", update_account_admin_user_path(user.id),
-              method: :post, data: { no_turbolink: true, confirm: message }, class: 'member_link'
+      item text_link, delete_account_admin_user_path(user.id),
+           method: :post, data: { no_turbolink: true, confirm: message }, class: 'member_link'
     end
   end
 
@@ -70,10 +74,15 @@ ActiveAdmin.register User do
   end
 
   controller do
-    before_action :load_user, only: [:update_account, :remove_user]
+    before_action :load_user, only: [:activate_account, :delete_account]
 
-    def update_account
-      @user.account_active ? @user.destroy : @user.update(account_active: true)
+    def activate_account
+      @user.update(account_active: true)
+      redirect_to(admin_users_path)
+    end
+
+    def delete_account
+      @user.destroy
       redirect_to(admin_users_path)
     end
 

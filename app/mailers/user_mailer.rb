@@ -14,6 +14,11 @@ class UserMailer < ApplicationMailer
     mail(to: @user.email, subject: 'Tu solicitud de cuenta ha sido rechazada')
   end
 
+  def deactivated_user_email(user)
+    @user = user
+    mail(to: @user.email, subject: 'Tu cuenta ha sido eliminada')
+  end
+
   def permissions_changed_email(user)
     @user = user
     mail(to: @user.email, subject: 'Tus permisos en ASH-WEB han sido modificados')
