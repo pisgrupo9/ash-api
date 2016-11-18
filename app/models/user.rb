@@ -34,12 +34,25 @@ class User < ActiveRecord::Base
   before_update :send_mail_accepted_user, if: :account_active_changed?
   before_update :send_mail_permissions_changed, if: :permissions_changed_and_is_active?
   before_destroy :send_mail_deleted_user
-
+  after_create :send_welcome_email
   enum permissions:  [:default_user, :animals_edit, :adopters_edit, :super_user]
 
   def account_active?
     account_active
   end
+
+  def permissions_to_s
+    case permissions
+    when 'default_user'
+      'Tienes permiso para listar y buscar animales.'
+    when 'animals_edit'
+      'Tienes permiso para crear y editar animales.'
+    when 'adopters_edit'
+      'Tienes permiso para crear y editar adoptantes, y crear adopciones.'
+    end
+  end
+
+  private
 
   def send_mail_accepted_user
     UserMailer.accepted_user_email(self).deliver_now
@@ -61,14 +74,8 @@ class User < ActiveRecord::Base
     account_active && permissions_changed?
   end
 
-  def permissions_to_s
-    case permissions
-    when 'default_user'
-      'Tienes permiso para listar y buscar animales.'
-    when 'animals_edit'
-      'Tienes permiso para crear y editar animales.'
-    when 'adopters_edit'
-      'Tienes permiso para crear y editar adoptantes, y crear adopciones.'
-    end
+  def send_welcome_email
+    AdminMailer.new_user_mail(AdminUser.first).deliver_now
+    UserMailer.welcome_email(self).deliver_now
   end
 end
