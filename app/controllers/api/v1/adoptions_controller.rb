@@ -2,6 +2,8 @@ module Api
   module V1
     class AdoptionsController < Api::V1::ApiController
       before_action :set_adoption, only: [:show, :destroy]
+      before_action :find_adopter, only: [:create]
+      before_action :find_animal, only: [:create]
       respond_to :json
 
       def show
@@ -31,6 +33,14 @@ module Api
 
       def adoption_params
         params.require(:adoption).permit(:adopter_id, :animal_id, :date)
+      end
+
+      def find_adopter
+        Adopter.find(adoption_params[:adopter_id])
+      end
+
+      def find_animal
+        Animal.find(adoption_params[:animal_id])
       end
     end
   end
