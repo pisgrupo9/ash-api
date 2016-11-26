@@ -22,6 +22,7 @@ class Adoption < ActiveRecord::Base
   validates :adopter_id, :animal_id, :date, presence: true
   validates :animal_id, uniqueness: true
   validate :adoptable_animal
+  validate :correct_date
   validate :adoptable_vaccines, :adoptable_castrated, if: 'animal.adoptable?'
   validate :adopter_blacklisted
 
@@ -36,6 +37,10 @@ class Adoption < ActiveRecord::Base
   }
 
   private
+
+  def correct_date
+    errors.add(:date, 'La fecha de adopción no puede ser mayor a hoy') if Date.today < date
+  end
 
   def adopter_blacklisted
     errors.add(:adopter_id, 'El adoptante está en la lista negra.') if adopter.blacklisted
