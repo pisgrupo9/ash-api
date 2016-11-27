@@ -110,7 +110,7 @@ class Animal < ActiveRecord::Base
   end
 
   def species_race_required?
-    [1, 2, 3].include? species_id
+    Species.find(species_id).adoptable?
   end
 
   def correct_death_date
